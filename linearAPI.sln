@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "linearAPI", "linearAPI\linearAPI.csproj", "{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DD38C4E-647F-4347-AA29-9C5C83D18757}
+	EndGlobalSection
+EndGlobal
