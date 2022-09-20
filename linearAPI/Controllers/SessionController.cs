@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text;
+using linearAPI.Entities;
 
 namespace linearAPI.Controllers
 {
@@ -19,9 +20,10 @@ namespace linearAPI.Controllers
         }
 
         [HttpGet]
-        [Route("login")]
+        [Route("user")]
         [Produces("application/json")]
-        public IActionResult Login()
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+        public IActionResult User()
         {
 
             //// Get credentials
@@ -34,6 +36,15 @@ namespace linearAPI.Controllers
             //int seperatorIndex = emailPassword.IndexOf(':');
             //string email = emailPassword.Substring(0, seperatorIndex);
             //string password = emailPassword.Substring(seperatorIndex + 1);
+
+            return Ok(new LinearUser("Jens Testa"));
+        }
+
+        [HttpGet]
+        [Route("login")]
+        [Produces("application/json")]
+        public IActionResult Login()
+        {
 
             HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,

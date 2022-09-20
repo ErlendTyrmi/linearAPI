@@ -9,6 +9,6 @@ namespace User
 {
     internal class User
     {
-        public String name = "No Name";
+        public String name = "Test Name";
     }
 }
