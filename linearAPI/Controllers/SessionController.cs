@@ -50,13 +50,12 @@ namespace linearAPI.Controllers
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(new ClaimsIdentity("12345"))).Wait();
 
-            return Ok();
+            return Ok(new LinearUser("Jens Testa"));
         }
 
         [HttpGet]
         [Route("logout")]
         [Produces("application/json")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult Logout()
         {
             try

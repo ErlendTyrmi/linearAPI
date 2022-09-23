@@ -9,7 +9,11 @@ namespace linearAPI.Services.CookieAuthorization
 
         public LinearUser getUser(string cookie)
         {
-            return users.GetValueOrDefault(cookie);
+            var user = users.GetValueOrDefault(cookie);
+            if (user == null) {
+                return new LinearUser("");
+            }
+            return user;
         }
 
         public void setUser(string cookie, LinearUser user)
@@ -22,6 +26,11 @@ namespace linearAPI.Services.CookieAuthorization
             {
                 users.Add(cookie, user);
             }
+        }
+
+        bool CookieDatabase.setUser(string cookie, LinearUser user)
+        {
+            throw new NotImplementedException();
         }
     }
 }
