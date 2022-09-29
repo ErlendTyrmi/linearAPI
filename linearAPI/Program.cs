@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.Cookie.Name = "session_cookie";
         options.SlidingExpiration = true;
-        options.ExpireTimeSpan = new TimeSpan(0, 30, 0); // Expires in 1 hour
+        options.ExpireTimeSpan = new TimeSpan(0, 60, 0);
         options.Events.OnRedirectToLogin = (context) =>
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;

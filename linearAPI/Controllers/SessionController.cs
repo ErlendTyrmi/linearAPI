@@ -5,6 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text;
 using linearAPI.Entities;
+using linearAPI.Services.CookieAuthorization;
+using Microsoft.Net.Http.Headers;
+using System.Net;
+using Microsoft.AspNetCore.Identity;
+using Database.CookieAuthorization;
+using Database;
 
 namespace linearAPI.Controllers
 {
@@ -25,6 +31,7 @@ namespace linearAPI.Controllers
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult User()
         {
+            CookieDatabase cookieDb = new CookieDatabaseImpl_mock();
 
             //// Get credentials
             //string encodedEmailPassword = authHeader.Substring("Basic ".Length).Trim();
@@ -40,17 +47,22 @@ namespace linearAPI.Controllers
             return Ok(new LinearUser("Jens Testa"));
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("login")]
         [Produces("application/json")]
-        public IActionResult Login()
+        public IActionResult Login([FromBody] LinearCredentials data)
         {
+            if (LinearAuthorization.Authorize(data))
+            {
+                HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(new ClaimsIdentity("12345")))
+                    .Wait();
 
-            HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            new ClaimsPrincipal(new ClaimsIdentity("12345"))).Wait();
+                return Ok(new LinearUser("Jens Testa"));
+            }
 
-            return Ok(new LinearUser("Jens Testa"));
+            return StatusCode(401);
         }
 
         [HttpGet]

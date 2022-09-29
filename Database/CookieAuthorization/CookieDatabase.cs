@@ -1,10 +1,11 @@
 ﻿using linearAPI.Entities;
+using System.Net;
 
 namespace linearAPI.Services.CookieAuthorization
 {
     public interface CookieDatabase
     {
-        public LinearUser getUser(string cookie);
-        public bool setUser(string cookie, LinearUser user);
+        public LinearUser GetUser(Cookie cookie);
+        public bool SetUser(Cookie cookie, LinearUser user);
     }
 }

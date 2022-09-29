@@ -1,13 +1,14 @@
 ﻿using linearAPI.Entities;
+using System.Net;
 using System.Reflection.Metadata.Ecma335;
 
 namespace linearAPI.Services.CookieAuthorization
 {
     public class CookieDatabaseImpl_mock : CookieDatabase
     {
-        private Dictionary<string, LinearUser> users = new Dictionary<string, LinearUser>();
+        private Dictionary<Cookie, LinearUser> users = new Dictionary<Cookie, LinearUser>();
 
-        public LinearUser getUser(string cookie)
+        public LinearUser GetUser(Cookie cookie)
         {
             var user = users.GetValueOrDefault(cookie);
             if (user == null) {
@@ -16,7 +17,7 @@ namespace linearAPI.Services.CookieAuthorization
             return user;
         }
 
-        public void setUser(string cookie, LinearUser user)
+        bool CookieDatabase.SetUser(Cookie cookie, LinearUser user)
         {
             if (users.ContainsKey(cookie))
             {
@@ -26,11 +27,12 @@ namespace linearAPI.Services.CookieAuthorization
             {
                 users.Add(cookie, user);
             }
-        }
 
-        bool CookieDatabase.setUser(string cookie, LinearUser user)
-        {
-            throw new NotImplementedException();
+            foreach (var existingUser in users) {
+               // if (existingUser)
+            }
+
+            return true;
         }
     }
 }

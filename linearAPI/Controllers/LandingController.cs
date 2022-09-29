@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace linearAPI.Controllers
 {
@@ -24,6 +25,8 @@ namespace linearAPI.Controllers
         [HttpGet(Name = "GetLanding")]
         public IEnumerable<WeatherForecast> Get()
         {
+            var claim = Request.Headers;
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
