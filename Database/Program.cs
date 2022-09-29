@@ -5,8 +5,8 @@ using System.Text.Json;
 
 LinearUserRepo repo = new LinearUserRepo();
 
-repo.create(new LinearUser("12345", "Adam Evasen", "adev@tvx.dk", true));
-repo.create(new LinearUser("54321", "Eva Adamsen", "adev@bureau.net", false));
+repo.create(new LinearUser("12345", "Adam Adminsen", "aadm@tvx.dk", true));
+repo.create(new LinearUser("54321", "Eva deBureau", "evad@bureau.net", false));
 
 Console.WriteLine("Individual getters:");
 printUser(repo.Read("12345"));

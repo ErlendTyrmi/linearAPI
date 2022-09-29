@@ -12,6 +12,7 @@ using System.Net;
 using Microsoft.AspNetCore.Identity;
 using Database.CookieAuthorization;
 using Database;
+using Database.LinearDatabase;
 
 namespace linearAPI.Controllers
 {
@@ -33,12 +34,18 @@ namespace linearAPI.Controllers
       
         public IActionResult User()
         {
-            CookieDatabase cookieDb = new CookieDatabaseImpl_mock();
+            CookieDatabase cookieDb = new CookieDatabase();
 
             // Get user form cookiedatabase
-            var cookie = HttpContext.Request.Cookies.SingleOrDefault();
+            var cookie = HttpContext.Request.Cookies["session_cookie"];
 
-            return Ok(new LinearUser("22222", "Jens Testa", "a@b.com", false));
+            if (cookie == null) return StatusCode(401);
+
+            //var user = new CookieDatabase().GetUser(cookie);
+
+            //if (user == null) return StatusCode(401);
+
+            return Ok(new LinearUser("User", "method", "implemented?", false));
         }
 
         [HttpPost]
@@ -48,12 +55,22 @@ namespace linearAPI.Controllers
         {
             if (LinearAuthorization.Authorize(data))
             {
+
+                // Find user
+                var user = new LinearUser("NoId", "NoName", "NoEmail", false);
+
                 HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(new ClaimsIdentity("12345")))
+                new ClaimsPrincipal(new ClaimsIdentity(data.username)))
                     .Wait();
 
-                return Ok(new LinearUser("33333", "Jens Amazonas", "att@booking.mix", false));
+                // Add user to sessions
+                new CookieDatabase().SetSession(data.username);
+
+                // Cleanup sessions
+
+
+                return Ok(user);
             }
 
             return StatusCode(401);

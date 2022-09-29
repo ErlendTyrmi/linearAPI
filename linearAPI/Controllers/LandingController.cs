@@ -24,10 +24,10 @@ namespace linearAPI.Controllers
         public IActionResult Get()
         {
             var cookie = HttpContext.Request.Cookies["session_cookie"];
-
             if (cookie == null) return StatusCode(401);
 
-            new CookieDatabaseImpl_mock().GetUser(cookie);
+            var cookieDatabase = new CookieDatabase(); // TODO: Get from cookie to user id
+            if (!cookieDatabase.sessionActive(cookie)) return StatusCode(401);
 
             return Ok(DateTime.Now);
         }
