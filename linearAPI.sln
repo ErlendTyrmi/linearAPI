@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "linearAPI", "linearAPI\linearAPI.csproj", "{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{9EEBBF00-BC93-4DB5-8DC1-915193A6D6A7}"
+
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

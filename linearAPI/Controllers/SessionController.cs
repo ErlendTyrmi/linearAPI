@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text;
 using linearAPI.Entities;
+
 using linearAPI.Services.CookieAuthorization;
 using Microsoft.Net.Http.Headers;
 using System.Net;
@@ -28,6 +29,7 @@ namespace linearAPI.Controllers
         [HttpGet]
         [Route("user")]
         [Produces("application/json")]
+
       
         public IActionResult User()
         {
