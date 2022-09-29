@@ -6,18 +6,18 @@ namespace linearAPI.Services.CookieAuthorization
 {
     public class CookieDatabaseImpl_mock : CookieDatabase
     {
-        private Dictionary<Cookie, LinearUser> users = new Dictionary<Cookie, LinearUser>();
+        private Dictionary<string, LinearUser> users = new Dictionary<string, LinearUser>();
 
-        public LinearUser GetUser(Cookie cookie)
+        public LinearUser GetUser(string cookie)
         {
             var user = users.GetValueOrDefault(cookie);
             if (user == null) {
-                return new LinearUser("");
+                return new LinearUser("", "", "", false);
             }
             return user;
         }
 
-        bool CookieDatabase.SetUser(Cookie cookie, LinearUser user)
+        bool CookieDatabase.SetUser(string cookie, LinearUser user)
         {
             if (users.ContainsKey(cookie))
             {

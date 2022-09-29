@@ -5,7 +5,7 @@ namespace linearAPI.Services.CookieAuthorization
 {
     public interface CookieDatabase
     {
-        public LinearUser GetUser(Cookie cookie);
-        public bool SetUser(Cookie cookie, LinearUser user);
+        public LinearUser GetUser(string cookie);
+        public bool SetUser(string cookie, LinearUser user);
     }
 }

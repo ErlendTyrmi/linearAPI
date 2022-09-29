@@ -28,23 +28,15 @@ namespace linearAPI.Controllers
         [HttpGet]
         [Route("user")]
         [Produces("application/json")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+      
         public IActionResult User()
         {
             CookieDatabase cookieDb = new CookieDatabaseImpl_mock();
 
-            //// Get credentials
-            //string encodedEmailPassword = authHeader.Substring("Basic ".Length).Trim();
-            //string emailPassword = Encoding
-            //.GetEncoding("iso-8859-1")
-            //.GetString(Convert.FromBase64String(encodedEmailPassword));
+            // Get user form cookiedatabase
+            var cookie = HttpContext.Request.Cookies.SingleOrDefault();
 
-            //// Get email and password
-            //int seperatorIndex = emailPassword.IndexOf(':');
-            //string email = emailPassword.Substring(0, seperatorIndex);
-            //string password = emailPassword.Substring(seperatorIndex + 1);
-
-            return Ok(new LinearUser("Jens Testa"));
+            return Ok(new LinearUser("22222", "Jens Testa", "a@b.com", false));
         }
 
         [HttpPost]
@@ -59,7 +51,7 @@ namespace linearAPI.Controllers
                 new ClaimsPrincipal(new ClaimsIdentity("12345")))
                     .Wait();
 
-                return Ok(new LinearUser("Jens Testa"));
+                return Ok(new LinearUser("33333", "Jens Amazonas", "att@booking.mix", false));
             }
 
             return StatusCode(401);
