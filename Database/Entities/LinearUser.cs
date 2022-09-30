@@ -1,19 +1,30 @@
-﻿namespace linearAPI.Entities
+﻿using Database.Entities;
+
+namespace linearAPI.Entities
 {
     [Serializable]
-    public class LinearUser
+    public class LinearUser : ILinearEntity
     {
-        public LinearUser(string id, string name, string email, bool admin)
+        public string Id { get; set; }
+        public DateTime ModifiedTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+
+        public LinearUser(string id, string name, string email, bool isAdmin)
         {
-            Id = id;
+            // Meta (inherited)
+            Id = id; 
+            ModifiedTime = DateTime.Now;
+            CreatedTime = DateTime.Now;
+
+            // Values
             Name = name;
             Email = email;
-            Admin = admin;
+            IsAdmin = isAdmin;
         }
 
-        public string Id { get; }
         public string Name { get; }
         public string Email { get; }
-        public bool Admin { get; }
+        public bool IsAdmin { get; }
+       
     }
 }

@@ -1,12 +1,13 @@
-﻿using Database.LinearDatabase;
+﻿using Database.Entities;
+using Database.LinearDatabase;
 using linearAPI.Entities;
 using System.Text.Json;
 
 
-LinearUserRepo repo = new LinearUserRepo();
+LinearRepo<LinearUser> repo = new LinearRepo<LinearUser>();
 
-repo.create(new LinearUser("12345", "Adam Adminsen", "aadm@tvx.dk", true));
-repo.create(new LinearUser("54321", "Eva deBureau", "evad@bureau.net", false));
+repo.Create(new LinearUser("12345", "Adam Adminsen", "aadm@tvx.dk", true));
+repo.Create(new LinearUser("54321", "Eva deBureau", "evad@bureau.net", false));
 
 Console.WriteLine("Individual getters:");
 printUser(repo.Read("12345"));
@@ -29,7 +30,7 @@ void printUser(LinearUser user){
     Console.WriteLine($"ID:{user.Id}");
     Console.WriteLine($"Name: {user.Name}");
     Console.WriteLine($"Mail: {user.Email}");
-    Console.WriteLine($"Admin: {user.Admin}");
+    Console.WriteLine($"Admin: {user.IsAdmin}");
     Console.WriteLine();
 }
 
