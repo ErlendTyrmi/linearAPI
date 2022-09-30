@@ -1,11 +1,17 @@
+using Database.LinearDatabase;
+using linearAPI.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var corsSettings = "_allowSpecificOriginsDev";
 
-// Add services to the container.
+// DEBUG ONLY
+LinearRepo<LinearUser> repo = new LinearRepo<LinearUser>();
+repo.Create(new LinearUser("12345", "Adam Adminsen", "aadm@tvx.dk", true));
+repo.Create(new LinearUser("54321", "Eva deBureau", "evad@bureau.net", false));
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

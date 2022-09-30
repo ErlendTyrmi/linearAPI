@@ -18,4 +18,6 @@
     <ProjectReference Include="..\Database\Database.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties datatest_4lineardata_1json__JsonSchema="https://appsemble.app/api.json" /></VisualStudio></ProjectExtensions>
+
 </Project>

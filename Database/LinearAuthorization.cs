@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Database
 {
-    public static class LinearAuthorization
+    public static class LinearAuthentication
     {
-        public static bool Authorize(LinearCredentials credentials)
+        public static bool AuthenticateCredentials(LinearCredentials credentials)
         {
 
             if (credentials == null) return false;

@@ -1,4 +1,7 @@
 
+using Database.Entities;
+using Database.LinearDatabase;
+using linearAPI.Entities;
 using linearAPI.Services.CookieAuthorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +17,8 @@ namespace linearAPI.Controllers
     public class LandingController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
+        private LinearRepo<LinearData> dataRepo = new LinearRepo<LinearData>();
+        private SessionDatabase sessionRepo = SessionDatabase.GetRepo();
 
         public LandingController(ILogger<LandingController> logger)
         {
@@ -23,13 +28,49 @@ namespace linearAPI.Controllers
         [HttpGet(Name = "GetLanding")]
         public IActionResult Get()
         {
-            var cookie = HttpContext.Request.Cookies["session_cookie"];
-            if (cookie == null) return StatusCode(401);
 
-            var cookieDatabase = new CookieDatabase(); // TODO: Get from cookie to user id
-            if (!cookieDatabase.sessionActive(cookie)) return StatusCode(401);
+            //debug
+            dataRepo.Create(new LinearData("123", "This is a piece of data", DateTime.Now));
+            dataRepo.Create(new LinearData("124", "This is more data", DateTime.Now.AddSeconds(1)));
+            dataRepo.Create(new LinearData("125", "More is better", DateTime.Now.AddSeconds(2)));
+            sessionRepo.SetSession("12345");
 
-            return Ok(DateTime.Now);
+            // Get user form cookiedatabase
+            var claims = HttpContext.User.Identity?.AuthenticationType;
+            if (claims == null) return StatusCode(401);
+
+            // Check session
+            var username = sessionRepo.GetSession(claims);
+            if (username == null) return StatusCode(401);
+
+            // Find user
+            var data = dataRepo.ReadAll();
+            if (data == null) return StatusCode(301);
+
+            return Ok(data);
+        }
+
+        [Serializable]
+        public class LinearData : ILinearEntity
+        {
+            public string Id { get; set; }
+            public DateTime ModifiedTime { get; set; }
+            public DateTime CreatedTime { get; set; }
+
+            public LinearData(string id, string message, DateTime date)
+            {
+                // Meta (inherited)
+                Id = id;
+                ModifiedTime = DateTime.Now;
+                CreatedTime = DateTime.Now;
+
+                // Values
+                Message = message;
+                Date = date;
+            }
+
+            public string Message { get; }
+            public DateTime Date { get; }
         }
     }
 }

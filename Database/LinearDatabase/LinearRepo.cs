@@ -1,5 +1,4 @@
 ﻿using Database.Entities;
-using linearAPI.Entities;
 using System.Text.Json;
 
 namespace Database.LinearDatabase
@@ -12,7 +11,14 @@ namespace Database.LinearDatabase
     public class LinearRepo<TType>
     {
         readonly LinearFileHandler fileHandler = new LinearFileHandler(null);
-        readonly string EntityName = nameof(TType);
+        readonly string EntityName = typeof(TType).Name;
+
+        public LinearRepo() {
+            // Make sure TType is linear entity
+            if (typeof(TType).GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() != typeof(ILinearEntity))){
+                throw new ArgumentException($"{nameof(TType)} does not implement {nameof(ILinearEntity)}");
+            }
+        }
 
         public void Create(TType entity)
         {

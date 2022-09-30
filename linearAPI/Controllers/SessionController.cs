@@ -1,18 +1,12 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Database;
+using Database.CookieAuthorization;
+using Database.LinearDatabase;
+using linearAPI.Entities;
+using linearAPI.Services.CookieAuthorization;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Text;
-using linearAPI.Entities;
-
-using linearAPI.Services.CookieAuthorization;
-using Microsoft.Net.Http.Headers;
-using System.Net;
-using Microsoft.AspNetCore.Identity;
-using Database.CookieAuthorization;
-using Database;
-using Database.LinearDatabase;
 
 namespace linearAPI.Controllers
 {
@@ -21,6 +15,8 @@ namespace linearAPI.Controllers
     public class SessionController : ControllerBase
     {
         private readonly ILogger<SessionController> _logger;
+        private LinearRepo<LinearUser> userRepo = new LinearRepo<LinearUser>();
+        private SessionDatabase sessionRepo = SessionDatabase.GetRepo();
 
         public SessionController(ILogger<SessionController> logger)
         {
@@ -28,24 +24,25 @@ namespace linearAPI.Controllers
         }
 
         [HttpGet]
-        [Route("user")]
+        [Route("/")]
         [Produces("application/json")]
 
       
-        public IActionResult User()
+        public new IActionResult getSession()
         {
-            CookieDatabase cookieDb = new CookieDatabase();
-
             // Get user form cookiedatabase
-            var cookie = HttpContext.Request.Cookies["session_cookie"];
+            var claims = HttpContext.User.Identity?.AuthenticationType;
+            if (claims == null) return StatusCode(401);
 
-            if (cookie == null) return StatusCode(401);
+            // Check session
+            var username = sessionRepo.GetSession(claims);
+            if (username == null) return StatusCode(401);
 
-            //var user = new CookieDatabase().GetUser(cookie);
+            // Find user
+            var user = userRepo.Read(username);
+            if (user == null) return StatusCode(401);
 
-            //if (user == null) return StatusCode(401);
-
-            return Ok(new LinearUser("User", "method", "implemented?", false));
+            return Ok(user);
         }
 
         [HttpPost]
@@ -53,22 +50,20 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Login([FromBody] LinearCredentials data)
         {
-            if (LinearAuthorization.Authorize(data))
+            if (LinearAuthentication.AuthenticateCredentials(data))
             {
-
                 // Find user
-                var user = new LinearUser("NoId", "NoName", "NoEmail", false);
+                var user = userRepo.Read(data.username);
+                if (user == null) return StatusCode(401);
 
+                // Add user to sessions
+                sessionRepo.SetSession(data.username);
+
+                // Cleanup sessions
                 HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(new ClaimsIdentity(data.username)))
                     .Wait();
-
-                // Add user to sessions
-                new CookieDatabase().SetSession(data.username);
-
-                // Cleanup sessions
-
 
                 return Ok(user);
             }

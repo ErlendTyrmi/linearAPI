@@ -5,6 +5,7 @@ namespace linearAPI.Entities
     [Serializable]
     public class LinearUser : ILinearEntity
     {
+        // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
         public DateTime CreatedTime { get; set; }
