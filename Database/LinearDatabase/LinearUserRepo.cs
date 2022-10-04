@@ -55,6 +55,15 @@ namespace Database.LinearDatabase
             return userList;
         }
 
+//public TType? delete(string id){
+// TType? deleted=null;
+//var userDict = ReadAllAsDictionary();
+//if(userdict != null && userdict.contains(id){
+//deleted = userdict.get(id)
+// userdict.delete(id)}
+//return deleted
+//}
+
         // PRIVATE METHODS
 
         private IDictionary<string, LinearUser>? ReadAllAsDictionary()
