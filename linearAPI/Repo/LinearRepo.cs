@@ -1,7 +1,8 @@
-﻿using System.Text.Json;
-using linearAPI.Entities;
+﻿using linearAPI.Entities;
+using linearAPI.Repo.Database;
+using System.Text.Json;
 
-namespace Database.LinearDatabase
+namespace linearAPI.Repo
 {
     /// <summary>
     /// General repo class for Linear Entities.
@@ -16,16 +17,16 @@ namespace Database.LinearDatabase
         public LinearRepo()
         {
             // Make sure TType is linear entity
-            if (typeof(TType).GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() != typeof(Entities.ILinearEntity)))
+            if (typeof(TType).GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() != typeof(ILinearEntity)))
             {
-                throw new ArgumentException($"{nameof(TType)} does not implement {nameof(Entities.ILinearEntity)}");
+                throw new ArgumentException($"{nameof(TType)} does not implement {nameof(ILinearEntity)}");
             }
         }
 
         public void Create(TType entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            var id = ((Entities.ILinearEntity)entity).Id;
+            var id = ((ILinearEntity)entity).Id;
             var entities = ReadAllAsDictionary();
             entities ??= new Dictionary<string, TType>();
 
@@ -55,7 +56,7 @@ namespace Database.LinearDatabase
                 if (entity == null) continue;
 
                 //ILinearEntity entity = (ILinearEntity)rawEntity;
-                if (((Entities.ILinearEntity)entity).Id == id) return entity;
+                if (((ILinearEntity)entity).Id == id) return entity;
             }
 
             return default;
@@ -84,6 +85,7 @@ namespace Database.LinearDatabase
                 deleted = userDict[id];
                 if (userDict.Remove(id)) { 
                     // Success
+
                     return deleted; 
                 }
             }

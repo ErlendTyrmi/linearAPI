@@ -1,6 +1,4 @@
-﻿using Database.Entities;
-
-namespace linearAPI.Entities
+﻿namespace linearAPI.Entities
 {
     [Serializable]
     public class LinearUser : ILinearEntity

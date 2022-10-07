@@ -8,8 +8,8 @@ var corsSettings = "_allowSpecificOriginsDev";
 
 // DEBUG ONLY
 LinearRepo<LinearUser> repo = new LinearRepo<LinearUser>();
-repo.Create(new LinearUser("12345", "Adam Adminsen", "aadm@tvx.dk", true));
-repo.Create(new LinearUser("54321", "Eva deBureau", "evad@bureau.net", false));
+repo.Create(new LinearUser("12345", "Adam Adminsen", "aadm", "aadm@tvx.dk", true));
+repo.Create(new LinearUser("54321", "Eva deBureau", "evad",  "evad@bureau.net", false));
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -48,6 +48,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         // Only use this when the sites are on different domains
         options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
     });
+
+
 
 var app = builder.Build();
 

@@ -1,8 +1,7 @@
 
-using Database.Entities;
-using Database.LinearDatabase;
 using linearAPI.Entities;
-using linearAPI.Services.CookieAuthorization;
+using linearAPI.Repo;
+using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,32 +17,24 @@ namespace linearAPI.Controllers
     {
         private readonly ILogger<LandingController> _logger;
         private LinearRepo<LinearData> dataRepo = new LinearRepo<LinearData>();
-        private SessionDatabase sessionRepo = SessionDatabase.GetRepo();
+        private SessionService sessionRepo = SessionService.GetRepo();
 
         public LandingController(ILogger<LandingController> logger)
         {
             _logger = logger;
+            //debug
+            dataRepo.Create(new LinearData("123", "This is a piece of data", DateTime.Now));
+            dataRepo.Create(new LinearData("124", "This is more data", DateTime.Now.AddSeconds(1)));
+            dataRepo.Create(new LinearData("125", "More is better", DateTime.Now.AddSeconds(2)));
         }
 
         [HttpGet(Name = "GetLanding")]
         public IActionResult Get()
         {
+            //// Get user id (example, not used here)
+            //var claims = HttpContext.User.Claims;
+            //var id = claims.FirstOrDefault().Value;
 
-            //debug
-            dataRepo.Create(new LinearData("123", "This is a piece of data", DateTime.Now));
-            dataRepo.Create(new LinearData("124", "This is more data", DateTime.Now.AddSeconds(1)));
-            dataRepo.Create(new LinearData("125", "More is better", DateTime.Now.AddSeconds(2)));
-            sessionRepo.SetSession("12345");
-
-            // Get user form cookiedatabase
-            var claims = HttpContext.User.Identity?.AuthenticationType;
-            if (claims == null) return StatusCode(401);
-
-            // Check session
-            var username = sessionRepo.GetSession(claims);
-            if (username == null) return StatusCode(401);
-
-            // Find user
             var data = dataRepo.ReadAll();
             if (data == null) return StatusCode(301);
 
@@ -51,7 +42,7 @@ namespace linearAPI.Controllers
         }
 
         [Serializable]
-        public class LinearData : ILinearEntity
+        public class LinearData : Database.Entities.ILinearEntity
         {
             public string Id { get; set; }
             public DateTime ModifiedTime { get; set; }
