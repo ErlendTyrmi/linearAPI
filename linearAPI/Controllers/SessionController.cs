@@ -23,10 +23,10 @@ namespace linearAPI.Controllers
         }
 
         [HttpGet]
-        [Route("/")]
+        [Route("user")]
         [Produces("application/json")]
 
-        public IActionResult getSession()
+        public IActionResult getSessionUser()
         {
             string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
             if (userName == null) return StatusCode(401);
@@ -40,7 +40,7 @@ namespace linearAPI.Controllers
         [HttpPost]
         [Route("login")]
         [Produces("application/json")]
-        public IActionResult Login([FromBody] Authorization.LinearCredentials data)
+        public IActionResult Login([FromBody] LinearCredentials data)
         {
             if (LinearAuthentication.AuthenticateCredentials(data))
             {

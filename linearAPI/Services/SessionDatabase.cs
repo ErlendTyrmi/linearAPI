@@ -1,5 +1,5 @@
-﻿using Database.LinearDatabase;
-using linearAPI.Entities;
+﻿using linearAPI.Entities;
+using linearAPI.Repo;
 using System.Collections;
 using System.Net;
 using System.Reflection.Metadata.Ecma335;

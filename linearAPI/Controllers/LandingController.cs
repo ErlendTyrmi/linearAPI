@@ -42,7 +42,7 @@ namespace linearAPI.Controllers
         }
 
         [Serializable]
-        public class LinearData : Database.Entities.ILinearEntity
+        public class LinearData : ILinearEntity
         {
             public string Id { get; set; }
             public DateTime ModifiedTime { get; set; }
