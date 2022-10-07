@@ -1,4 +1,4 @@
-﻿using linearAPI.Entities;
+﻿using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo.Database;
 using System.Text.Json;
 
@@ -11,11 +11,13 @@ namespace linearAPI.Repo
     /// <typeparam name="TType"></typeparam>
     public class LinearRepo<TType>
     {
-        readonly LinearFileHandler fileHandler = new LinearFileHandler(null);
+        private readonly LinearFileHandler fileHandler;
         readonly string EntityName = typeof(TType).Name;
 
-        public LinearRepo()
+        public LinearRepo(string? directoryPathArg = null)
         {
+            fileHandler = new LinearFileHandler(directoryPathArg);
+
             // Make sure TType is linear entity
             if (typeof(TType).GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() != typeof(ILinearEntity)))
             {
@@ -40,7 +42,7 @@ namespace linearAPI.Repo
             }
 
             var serialized = JsonSerializer.Serialize(entities);
-            fileHandler.WriteAsString(EntityName, serialized);
+            fileHandler.Write(EntityName, serialized);
         }
 
         // Optional
@@ -79,14 +81,17 @@ namespace linearAPI.Repo
         public TType? delete(string id)
         {
             TType? deleted = default;
-            var userDict = ReadAllAsDictionary();
-            if (userDict != null && userDict.ContainsKey(id))
+            var entityDictionary = ReadAllAsDictionary();
+            if (entityDictionary != null && entityDictionary.ContainsKey(id))
             {
-                deleted = userDict[id];
-                if (userDict.Remove(id)) { 
-                    // Success
+                deleted = entityDictionary[id];
 
-                    return deleted; 
+                if (entityDictionary.Remove(id))
+                {
+                    // Success
+                    var serialized = JsonSerializer.Serialize(entityDictionary);
+                    fileHandler.Write(EntityName, serialized);
+                    return deleted;
                 }
             }
 

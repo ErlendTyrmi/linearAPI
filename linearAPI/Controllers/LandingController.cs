@@ -1,5 +1,4 @@
-
-using linearAPI.Entities;
+using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo;
 using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;

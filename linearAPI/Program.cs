@@ -1,15 +1,13 @@
 using linearAPI.Entities;
 using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var corsSettings = "_allowSpecificOriginsDev";
 
-// DEBUG ONLY
-LinearRepo<LinearUser> repo = new LinearRepo<LinearUser>();
-repo.Create(new LinearUser("12345", "Adam Adminsen", "aadm", "aadm@tvx.dk", true));
-repo.Create(new LinearUser("54321", "Eva deBureau", "evad",  "evad@bureau.net", false));
+DataGenerator.Generate();
 
 // Add services to the container.
 builder.Services.AddControllers();

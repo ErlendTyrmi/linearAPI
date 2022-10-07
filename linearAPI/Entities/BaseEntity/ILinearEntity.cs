@@ -1,4 +1,4 @@
-﻿namespace linearAPI.Entities
+﻿namespace linearAPI.Entities.BaseEntity
 {
     /// <summary>
     /// The stuff that all Linear entities need to have
