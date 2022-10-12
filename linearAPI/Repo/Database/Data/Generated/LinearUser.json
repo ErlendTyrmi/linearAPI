@@ -1,1 +1,46 @@
-{"78d7743d-d607-46ce-9767-0d57f5e1ef84":{"Id":"78d7743d-d607-46ce-9767-0d57f5e1ef84","ModifiedTime":"2022-10-12T16:02:36.5812688+02:00","Name":"Ada Adminsen","Email":"adad@tvx.dk","AgencyId":"4d45b51f-a57a-410a-a09c-42d6af4cafc2","UserName":"adad","CanDownloadMaterial":true,"CanWrite":true,"CanRead":true},"e167d15c-717f-4e9d-b2df-60a1b5af101c":{"Id":"e167d15c-717f-4e9d-b2df-60a1b5af101c","ModifiedTime":"2022-10-12T16:02:36.5844651+02:00","Name":"Eva de Bureau","Email":"edb@bureau.net","AgencyId":"2f1682d9-852f-4af1-916f-e334057368b1","UserName":"edb","CanDownloadMaterial":true,"CanWrite":true,"CanRead":true},"21a38b69-9224-48ee-8654-9608abe39bd7":{"Id":"21a38b69-9224-48ee-8654-9608abe39bd7","ModifiedTime":"2022-10-12T16:02:36.5927973+02:00","Name":"Bo Hansen","Email":"boha@hansens.com","AgencyId":"ee8df900-dc8b-4332-84f9-6dc48df41b9c","UserName":"boha","CanDownloadMaterial":true,"CanWrite":true,"CanRead":true},"bef3e140-2ce5-4c68-838c-399059fe4cad":{"Id":"bef3e140-2ce5-4c68-838c-399059fe4cad","ModifiedTime":"2022-10-12T16:02:36.5998446+02:00","Name":"Julian Noah G\u00E4rtm\u00FCtter","Email":"jung@b-uniq.com","AgencyId":"0283695e-1e2e-4527-9eee-d85865dd0a8d","UserName":"jung","CanDownloadMaterial":true,"CanWrite":true,"CanRead":true}}
+{
+  "78d7743d-d607-46ce-9767-0d57f5e1ef84": {
+    "Id": "78d7743d-d607-46ce-9767-0d57f5e1ef84",
+    "ModifiedTime": "2022-10-12T16:02:36.5812688+02:00",
+    "Name": "Ada Adminsen",
+    "Email": "adad@tvx.dk",
+    "AgencyId": "4d45b51f-a57a-410a-a09c-42d6af4cafc2",
+    "UserName": "adad",
+    "CanDownloadMaterial": true,
+    "CanWrite": true,
+    "CanRead": true
+  },
+  "e167d15c-717f-4e9d-b2df-60a1b5af101c": {
+    "Id": "e167d15c-717f-4e9d-b2df-60a1b5af101c",
+    "ModifiedTime": "2022-10-12T16:02:36.5844651+02:00",
+    "Name": "Eva de Bureau",
+    "Email": "edb@bureau.net",
+    "AgencyId": "2f1682d9-852f-4af1-916f-e334057368b1",
+    "UserName": "edb",
+    "CanDownloadMaterial": true,
+    "CanWrite": true,
+    "CanRead": true
+  },
+  "21a38b69-9224-48ee-8654-9608abe39bd7": {
+    "Id": "21a38b69-9224-48ee-8654-9608abe39bd7",
+    "ModifiedTime": "2022-10-12T16:02:36.5927973+02:00",
+    "Name": "Bo Hansen",
+    "Email": "boha@hansens.com",
+    "AgencyId": "ee8df900-dc8b-4332-84f9-6dc48df41b9c",
+    "UserName": "boha",
+    "CanDownloadMaterial": true,
+    "CanWrite": true,
+    "CanRead": true
+  },
+  "bef3e140-2ce5-4c68-838c-399059fe4cad": {
+    "Id": "bef3e140-2ce5-4c68-838c-399059fe4cad",
+    "ModifiedTime": "2022-10-12T16:02:36.5998446+02:00",
+    "Name": "Julian Noah G\u00E4rtm\u00FCtter",
+    "Email": "jung@b-uniq.com",
+    "AgencyId": "0283695e-1e2e-4527-9eee-d85865dd0a8d",
+    "UserName": "jung",
+    "CanDownloadMaterial": true,
+    "CanWrite": true,
+    "CanRead": true
+  }
+}

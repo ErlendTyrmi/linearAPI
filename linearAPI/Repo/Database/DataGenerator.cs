@@ -92,6 +92,7 @@ namespace linearAPI.Repo.Database
             // SpotBooking
 
             // Spot
+            var spotRepo = new LinearRepo<Spot>()
 
         }
 

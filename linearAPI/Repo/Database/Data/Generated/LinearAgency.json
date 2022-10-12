@@ -1,1 +1,58 @@
-{"4d45b51f-a57a-410a-a09c-42d6af4cafc2":{"Id":"4d45b51f-a57a-410a-a09c-42d6af4cafc2","ModifiedTime":"2022-10-12T16:02:36.4292428+02:00","Name":"TVX INTERN","SubscriptionType":"1","CanSeeOtherAdvertisers":false},"2f1682d9-852f-4af1-916f-e334057368b1":{"Id":"2f1682d9-852f-4af1-916f-e334057368b1","ModifiedTime":"2022-10-12T16:02:36.4324584+02:00","Name":"Bling International","SubscriptionType":"3","CanSeeOtherAdvertisers":false},"ee8df900-dc8b-4332-84f9-6dc48df41b9c":{"Id":"ee8df900-dc8b-4332-84f9-6dc48df41b9c","ModifiedTime":"2022-10-12T16:02:36.4324635+02:00","Name":"Hansens Reklameagentur","SubscriptionType":"3","CanSeeOtherAdvertisers":false},"0283695e-1e2e-4527-9eee-d85865dd0a8d":{"Id":"0283695e-1e2e-4527-9eee-d85865dd0a8d","ModifiedTime":"2022-10-12T16:02:36.4324664+02:00","Name":"B-UNIQ","SubscriptionType":"2","CanSeeOtherAdvertisers":false},"8a89cbdb-a308-48d5-8788-8f2b089528b0":{"Id":"8a89cbdb-a308-48d5-8788-8f2b089528b0","ModifiedTime":"2022-10-12T16:02:36.4324674+02:00","Name":"AD Vantage","SubscriptionType":"3","CanSeeOtherAdvertisers":false},"343d0d8f-1c4c-4432-a6f6-cae6b5c33291":{"Id":"343d0d8f-1c4c-4432-a6f6-cae6b5c33291","ModifiedTime":"2022-10-12T16:02:36.4324688+02:00","Name":"MicroMacro","SubscriptionType":"1","CanSeeOtherAdvertisers":false},"0f449bb1-64a7-40f7-94df-09dde031c950":{"Id":"0f449bb1-64a7-40f7-94df-09dde031c950","ModifiedTime":"2022-10-12T16:02:36.4324697+02:00","Name":"SKUB agentur","SubscriptionType":"1","CanSeeOtherAdvertisers":false},"81d7406f-6250-4b86-8ac4-49e2a7c9a7ba":{"Id":"81d7406f-6250-4b86-8ac4-49e2a7c9a7ba","ModifiedTime":"2022-10-12T16:02:36.4324705+02:00","Name":"Belmonte","SubscriptionType":"1","CanSeeOtherAdvertisers":false}}
+{
+  "4d45b51f-a57a-410a-a09c-42d6af4cafc2": {
+    "Id": "4d45b51f-a57a-410a-a09c-42d6af4cafc2",
+    "ModifiedTime": "2022-10-12T16:02:36.4292428+02:00",
+    "Name": "TVX INTERN",
+    "SubscriptionType": "1",
+    "CanSeeOtherAdvertisers": false
+  },
+  "2f1682d9-852f-4af1-916f-e334057368b1": {
+    "Id": "2f1682d9-852f-4af1-916f-e334057368b1",
+    "ModifiedTime": "2022-10-12T16:02:36.4324584+02:00",
+    "Name": "Bling International",
+    "SubscriptionType": "3",
+    "CanSeeOtherAdvertisers": false
+  },
+  "ee8df900-dc8b-4332-84f9-6dc48df41b9c": {
+    "Id": "ee8df900-dc8b-4332-84f9-6dc48df41b9c",
+    "ModifiedTime": "2022-10-12T16:02:36.4324635+02:00",
+    "Name": "Hansens Reklameagentur",
+    "SubscriptionType": "3",
+    "CanSeeOtherAdvertisers": false
+  },
+  "0283695e-1e2e-4527-9eee-d85865dd0a8d": {
+    "Id": "0283695e-1e2e-4527-9eee-d85865dd0a8d",
+    "ModifiedTime": "2022-10-12T16:02:36.4324664+02:00",
+    "Name": "B-UNIQ",
+    "SubscriptionType": "2",
+    "CanSeeOtherAdvertisers": false
+  },
+  "8a89cbdb-a308-48d5-8788-8f2b089528b0": {
+    "Id": "8a89cbdb-a308-48d5-8788-8f2b089528b0",
+    "ModifiedTime": "2022-10-12T16:02:36.4324674+02:00",
+    "Name": "AD Vantage",
+    "SubscriptionType": "3",
+    "CanSeeOtherAdvertisers": false
+  },
+  "343d0d8f-1c4c-4432-a6f6-cae6b5c33291": {
+    "Id": "343d0d8f-1c4c-4432-a6f6-cae6b5c33291",
+    "ModifiedTime": "2022-10-12T16:02:36.4324688+02:00",
+    "Name": "MicroMacro",
+    "SubscriptionType": "1",
+    "CanSeeOtherAdvertisers": false
+  },
+  "0f449bb1-64a7-40f7-94df-09dde031c950": {
+    "Id": "0f449bb1-64a7-40f7-94df-09dde031c950",
+    "ModifiedTime": "2022-10-12T16:02:36.4324697+02:00",
+    "Name": "SKUB agentur",
+    "SubscriptionType": "1",
+    "CanSeeOtherAdvertisers": false
+  },
+  "81d7406f-6250-4b86-8ac4-49e2a7c9a7ba": {
+    "Id": "81d7406f-6250-4b86-8ac4-49e2a7c9a7ba",
+    "ModifiedTime": "2022-10-12T16:02:36.4324705+02:00",
+    "Name": "Belmonte",
+    "SubscriptionType": "1",
+    "CanSeeOtherAdvertisers": false
+  }
+}
