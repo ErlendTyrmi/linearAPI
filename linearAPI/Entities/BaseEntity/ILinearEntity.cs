@@ -9,6 +9,5 @@
 
         public DateTime ModifiedTime { get; set; }
 
-        public DateTime CreatedTime { get; set; }
     }
 }

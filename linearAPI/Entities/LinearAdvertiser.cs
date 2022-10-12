@@ -8,16 +8,16 @@ namespace linearAPI.Entities
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
-        public DateTime CreatedTime { get; set; }
 
         // Data
         public string Name { get; }
-        public IList<String> Orders { get; set; }
+        public string Agency { get; }
 
-        public LinearAdvertiser(string id, string name) {
+        public LinearAdvertiser(string id, string name, string agency) {
             Id = id;
+            ModifiedTime = DateTime.Now;
             Name = name;
-            Orders = new List<String>();
+            Agency = agency;
         }
 
         

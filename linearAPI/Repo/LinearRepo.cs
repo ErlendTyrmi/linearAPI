@@ -8,7 +8,6 @@ namespace linearAPI.Repo
     /// General repo class for Linear Entities.
     /// Type arg must implement ILinearEntity.
     /// </summary>
-    /// <typeparam name="TType"></typeparam>
     public class LinearRepo<TType>
     {
         private readonly LinearFileHandler fileHandler;

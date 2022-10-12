@@ -13,35 +13,6 @@ namespace linearAPI.Repo.Database
         public static void Generate()
         {
 
-            // Advertisers
-
-            IList<LinearAdvertiser> advertisers = new List<LinearAdvertiser>();
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Sodavandsfabrikken A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Smukke Smykker Til Alle A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Tandklinikken Whiteout A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Filur & Co legetøj A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Danske Mejerier A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "HyperState Partyplanners A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Beaujoulais Vine A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "A.K. Bygmand A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Det Lækre Brød A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Fisker Find A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Fancy Party & udklædning A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Restaurant Bacchus A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Milli Vanilli Babytøj A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "FixDinI-Phone.net A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "RollespilsCenter Avedøre A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Belzebub Online Casino A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Økobryggeriet Sydhavn A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Toxic Arbejdssko A/S"));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Dortes Rejser A/S"));
-
-            LinearRepo<LinearAdvertiser> advertiserRepo = new LinearRepo<LinearAdvertiser>(dataDirectoryName);
-            foreach (var advertiser in advertisers)
-            {
-                advertiserRepo.Create(advertiser);
-            }
-
             // Agencies
 
             IList<LinearAgency> agencyList = new List<LinearAgency>();
@@ -54,15 +25,6 @@ namespace linearAPI.Repo.Database
             agencyList.Add(new LinearAgency(Guid.NewGuid().ToString(), "SKUB agentur", "1", false));
             agencyList.Add(new LinearAgency(Guid.NewGuid().ToString(), "Belmonte", "1", false));
 
-            agencyList.ElementAt(0).Advertisers = advertisers.Select(x => x.Id).ToList(); // Take All
-            agencyList.ElementAt(1).Advertisers = advertisers.Take(0..3).Select(x => x.Id).ToList();
-            agencyList.ElementAt(2).Advertisers = advertisers.Take(3..10).Select(x => x.Id).ToList();
-            agencyList.ElementAt(3).Advertisers = advertisers.Take(10..12).Select(x => x.Id).ToList();
-            agencyList.ElementAt(4).Advertisers = advertisers.Take(12..14).Select(x => x.Id).ToList();
-            agencyList.ElementAt(5).Advertisers = advertisers.Take(14..15).Select(x => x.Id).ToList();
-            agencyList.ElementAt(6).Advertisers = advertisers.Take(15..18).Select(x => x.Id).ToList();
-            agencyList.ElementAt(7).Advertisers = advertisers.Take(18..19).Select(x => x.Id).ToList();
-
             LinearRepo<LinearAgency> agencyRepo = new LinearRepo<LinearAgency>(dataDirectoryName);
             foreach (var agency in agencyList)
             {
@@ -72,21 +34,64 @@ namespace linearAPI.Repo.Database
             // Users
 
             LinearRepo<LinearUser> repo = new LinearRepo<LinearUser>(dataDirectoryName);
-            repo.Create(new LinearUser("78d7743d-d607-46ce-9767-0d57f5e1ef84", "Adam Adminsen", "aadm", "aadm@tvx.dk", agencyList.ElementAt(0).Id, true, true));
-            repo.Create(new LinearUser("e167d15c-717f-4e9d-b2df-60a1b5af101c", "Eva deBureau", "evad", "evad@bureau.net", agencyList.ElementAt(1).Id, true, true));
+            repo.Create(new LinearUser("78d7743d-d607-46ce-9767-0d57f5e1ef84", "Ada Adminsen", "adad", "adad@tvx.dk", agencyList.ElementAt(0).Id, true, true));
+            repo.Create(new LinearUser("e167d15c-717f-4e9d-b2df-60a1b5af101c", "Eva de Bureau", "edb", "edb@bureau.net", agencyList.ElementAt(1).Id, true, true));
             repo.Create(new LinearUser("21a38b69-9224-48ee-8654-9608abe39bd7", "Bo Hansen", "boha", "boha@hansens.com", agencyList.ElementAt(2).Id, true, true));
-            repo.Create(new LinearUser("bef3e140-2ce5-4c68-838c-399059fe4cad", "Julian André Gürtmitter", "jang", "jang@BUNIQ.com", agencyList.ElementAt(3).Id, true, true));
+            repo.Create(new LinearUser("bef3e140-2ce5-4c68-838c-399059fe4cad", "Julian Noah Gärtmütter", "jung", "jung@b-uniq.com", agencyList.ElementAt(3).Id, true, true));
 
             // Orders
 
-            // (Orderlines)
+            // Advertisers
+
+            IList<LinearAdvertiser> advertisers = new List<LinearAdvertiser>();
+   
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "TestAnnoncøren", agencyList.ElementAt(0).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Sodavandsfabrikken A/S", agencyList.ElementAt(1).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Smukke Smykker Til Alle A/S", agencyList.ElementAt(1).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Tandklinikken Whiteout A/S", agencyList.ElementAt(1).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Filur & Co legetøj A/S", agencyList.ElementAt(1).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Danske Mejerier A/S", agencyList.ElementAt(1).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "HyperState Partyplanners A/S", agencyList.ElementAt(1).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Beaujoulais Vine A/S", agencyList.ElementAt(1).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "A.K. Bygmand A/S", agencyList.ElementAt(1).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Det Lækre Brød A/S", agencyList.ElementAt(2).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Fisker Find A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Fancy Party & udklædning A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Restaurant Bacchus A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Milli Vanilli Babytøj A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "FixDinI-Phone.net A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "RollespilsCenter Avedøre A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Belzebub Online Casino A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Økobryggeriet Sydhavn A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Toxic Arbejdssko A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Dortes Rejser A/S", agencyList.ElementAt(3).Id));
+
+            LinearRepo<LinearAdvertiser> advertiserRepo = new LinearRepo<LinearAdvertiser>(dataDirectoryName);
+            foreach (var advertiser in advertisers)
+            {
+                advertiserRepo.Create(advertiser);
+            }
+
+            // Orders
 
             // Channels
+            var channelRepo = new LinearRepo<Channel>();
+            channelRepo.Create(new Channel(Guid.NewGuid().ToString(), "TVX National", "national"));
+            channelRepo.Create(new Channel(Guid.NewGuid().ToString(), "TVX Ung", "ung"));
+            channelRepo.Create(new Channel(Guid.NewGuid().ToString(), "TVX Gammel", "gammel"));
+            channelRepo.Create(new Channel(Guid.NewGuid().ToString(), "TVX Sporty", "sport"));
 
-            // ChannelSplits
+            // CommercialProduct
+            var productRepo = new LinearRepo<SalesProduct>();
+            productRepo.Create(new SalesProduct(Guid.NewGuid().ToString(), "classic 2-1", "2 parts exposure, 1 part specific"));
+            productRepo.Create(new SalesProduct(Guid.NewGuid().ToString(), "exposure", ""));
+            productRepo.Create(new SalesProduct(Guid.NewGuid().ToString(), "specific", ""));
 
-            // Targetgroups
+            // Order
 
+            // SpotBooking
+
+            // Spot
 
         }
 

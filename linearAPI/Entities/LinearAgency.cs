@@ -8,20 +8,20 @@ namespace linearAPI.Entities
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
-        public DateTime CreatedTime { get; set; }
 
         // Data
         public string Name { get; }
         public string SubscriptionType { get; }
         public bool CanSeeOtherAdvertisers { get; }
-        public IList<string> Advertisers  { get; set; }
+        // No need, this info is woth the order // public IList<string> Advertisers  { get; set; }
 
         public LinearAgency(string id, string name, string subscriptionType, bool canSeeOtherAdvertisers) {
-        Id = id;
+            Id = id;
+            ModifiedTime = DateTime.Now;
             Name = name;
             SubscriptionType = subscriptionType;
-            CanSeeOtherAdvertisers = canSeeOtherAdvertisers; // TODO: User it or lose it
-            Advertisers = new List<string>();
+            CanSeeOtherAdvertisers = canSeeOtherAdvertisers; // TODO: Use it or lose it
+            // Advertisers = new List<string>();
         }
     }
 }

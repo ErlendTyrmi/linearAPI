@@ -8,7 +8,6 @@ namespace linearAPI.Entities
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
-        public DateTime CreatedTime { get; set; }
 
         public LinearUser(
             string id, 
@@ -16,9 +15,8 @@ namespace linearAPI.Entities
             bool canDownloadMaterial = false, bool canWrite = false, bool canRead = true)
         {
             // Meta (inherited)
-            Id = id; 
+            Id = id;
             ModifiedTime = DateTime.Now;
-            CreatedTime = DateTime.Now;
 
             // Values
             Name = name;

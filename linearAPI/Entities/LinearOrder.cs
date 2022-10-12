@@ -9,21 +9,26 @@ namespace linearAPI.Entities
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
-        public DateTime CreatedTime { get; set; }
 
         public string Ordernumber;
-        public string AdvertiserId; // This is the link to advertiser? Please reverse!
+        public string AdvertiserId; 
+        public string AdvertiserName;
+        
+        public string AdvertiserProductName;
+
+        public string HandlerId;
 
         public int StartWeek;
         public int EndWeek;
         public DateTime LastDate;
         
         public string ChannelId;
-        public string CommercialProductId; // Name of actual product Use simple name instead of table?
+        public string CommercialProductId; // TV X product bought.
+        public string CommercialProductName;
         
-        public string OrderStatusId;
+        public string OrderStatus;
        
-        public bool Overbudget;
+        public double Overbudget;
         public double OrderTotal;
         public double OrderBudget;
         
