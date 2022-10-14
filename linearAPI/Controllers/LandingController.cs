@@ -1,3 +1,4 @@
+using linearAPI.Entities;
 using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo;
 using linearAPI.Services;
@@ -15,16 +16,12 @@ namespace linearAPI.Controllers
     public class LandingController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
-        private LinearRepo<LinearData> dataRepo = new LinearRepo<LinearData>();
+        private LinearDatabase<LinearOrder> dataRepo = new LinearDatabase<LinearOrder>("Generated/");
         private SessionService sessionRepo = SessionService.GetRepo();
 
         public LandingController(ILogger<LandingController> logger)
         {
             _logger = logger;
-            //debug
-            dataRepo.Create(new LinearData("123", "This is a piece of data", DateTime.Now));
-            dataRepo.Create(new LinearData("124", "This is more data", DateTime.Now.AddSeconds(1)));
-            dataRepo.Create(new LinearData("125", "More is better", DateTime.Now.AddSeconds(2)));
         }
 
         [HttpGet(Name = "GetLanding")]
@@ -40,27 +37,27 @@ namespace linearAPI.Controllers
             return Ok(data);
         }
 
-        [Serializable]
-        public class LinearData : ILinearEntity
-        {
-            public string Id { get; set; }
-            public DateTime ModifiedTime { get; set; }
-            public DateTime CreatedTime { get; set; }
+        //[Serializable]
+        //public class LinearData : ILinearEntity
+        //{
+        //    public string Id { get; set; }
+        //    public DateTime ModifiedTime { get; set; }
+        //    public DateTime CreatedTime { get; set; }
 
-            public LinearData(string id, string message, DateTime date)
-            {
-                // Meta (inherited)
-                Id = id;
-                ModifiedTime = DateTime.Now;
-                CreatedTime = DateTime.Now;
+        //    public LinearData(string id, string message, DateTime date)
+        //    {
+        //        // Meta (inherited)
+        //        Id = id;
+        //        ModifiedTime = DateTime.Now;
+        //        CreatedTime = DateTime.Now;
 
-                // Values
-                Message = message;
-                Date = date;
-            }
+        //        // Values
+        //        Message = message;
+        //        Date = date;
+        //    }
 
-            public string Message { get; }
-            public DateTime Date { get; }
-        }
+        //    public string Message { get; }
+        //    public DateTime Date { get; }
+        //}
     }
 }

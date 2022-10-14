@@ -8,12 +8,12 @@ namespace linearAPI.Repo
     /// General repo class for Linear Entities.
     /// Type arg must implement ILinearEntity.
     /// </summary>
-    public class LinearRepo<TType>
+    public class LinearDatabase<TType>
     {
         private readonly LinearFileHandler fileHandler;
         readonly string EntityName = typeof(TType).Name;
 
-        public LinearRepo(string? directoryPathArg = null)
+        public LinearDatabase(string? directoryPathArg = null)
         {
             fileHandler = new LinearFileHandler(directoryPathArg);
 
@@ -41,6 +41,34 @@ namespace linearAPI.Repo
             }
 
             var serialized = JsonSerializer.Serialize(entities);
+            fileHandler.Write(EntityName, serialized);
+        }
+
+        public void CreateList(IList<TType> entities)
+        {
+            if (entities.Count < 1) throw new ArgumentException("Received an empty list.", nameof(entities));
+
+            var entitiesDict = ReadAllAsDictionary();
+            entitiesDict ??= new Dictionary<string, TType>();
+
+            foreach (var entity in entities) {
+
+                // Ignore null entities
+                if (entity == null) throw new ArgumentNullException(nameof(entities), "Found a null entity in list");
+
+                var id = ((ILinearEntity)entity).Id;
+
+                if (entitiesDict.ContainsKey(id))
+                {
+                    entitiesDict[id] = entity;
+                }
+                else
+                {
+                    entitiesDict.Add(id, entity);
+                }
+            }
+
+            var serialized = JsonSerializer.Serialize(entitiesDict);
             fileHandler.Write(EntityName, serialized);
         }
 
@@ -77,7 +105,7 @@ namespace linearAPI.Repo
             return entityList;
         }
 
-        public TType? delete(string id)
+        public TType? Delete(string id)
         {
             TType? deleted = default;
             var entityDictionary = ReadAllAsDictionary();
@@ -95,6 +123,19 @@ namespace linearAPI.Repo
             }
 
             return default;
+        }
+
+        public IDictionary<string, TType>? DeleteAll()
+        {
+            var entityDictionary = ReadAllAsDictionary();
+            if (entityDictionary != null)
+            {
+                entityDictionary.Clear();
+                var empty = JsonSerializer.Serialize(entityDictionary);
+                fileHandler.Write(EntityName, empty);
+            }
+
+            return entityDictionary;
         }
 
         // PRIVATE METHODS

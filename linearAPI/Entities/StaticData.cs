@@ -3,13 +3,13 @@
 namespace linearAPI.Entities
 {
     [Serializable]
-    public class Channel : ILinearEntity
+    public class LinearChannel : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
 
-        public Channel(string id, string name, string shortName) {
+        public LinearChannel(string id, string name, string shortName) {
             Id = id;
             ModifiedTime = DateTime.Now;
             Name = name;
@@ -21,13 +21,13 @@ namespace linearAPI.Entities
     }
 
     [Serializable]
-    public class SalesProduct : ILinearEntity
+    public class LinearSalesProduct : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
 
-        public SalesProduct(string id, string name, string description)
+        public LinearSalesProduct(string id, string name, string description)
         {
             Id = id;
             ModifiedTime = DateTime.Now;
@@ -40,13 +40,13 @@ namespace linearAPI.Entities
     }
 
     [Serializable]
-    public class Spot : ILinearEntity
+    public class LinearSpot : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
 
-        public Spot(string id, DateTime startDateTime, int bookedSeconds, string channelId, string channelName, string nextProgram)
+        public LinearSpot(string id, DateTime startDateTime, int bookedSeconds, string channelId, string channelName, string nextProgram)
         {
             Id = id;
             ModifiedTime = DateTime.Now;
@@ -69,13 +69,13 @@ namespace linearAPI.Entities
     }
 
     [Serializable]
-    public class SpotBooking : ILinearEntity
+    public class LinearSpotBooking : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
 
-        public SpotBooking(string id, string spotId, string orderId)
+        public LinearSpotBooking(string id, string spotId, string orderId)
         {
             Id = id;
             ModifiedTime = DateTime.Now;
