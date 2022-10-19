@@ -1,15 +1,11 @@
-using linearAPI.Entities;
-using linearAPI.Repo;
-using linearAPI.Repo.Database.Generator;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var corsSettings = "_allowSpecificOriginsDev";
 
-DataGenerator.Generate();
-
 // Add services to the container.
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -46,8 +42,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         // Only use this when the sites are on different domains
         options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
     });
-
-
 
 var app = builder.Build();
 

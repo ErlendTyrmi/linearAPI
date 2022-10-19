@@ -1,11 +1,17 @@
-using linearAPI.Authorization;
-using linearAPI.Entities;
-using linearAPI.Repo;
-using linearAPI.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text;
+using linearAPI.Entities;
+
+using linearAPI.Services.CookieAuthorization;
+using Microsoft.Net.Http.Headers;
+using System.Net;
+using Microsoft.AspNetCore.Identity;
+using Database.CookieAuthorization;
+using Database;
 
 namespace linearAPI.Controllers
 {
@@ -14,8 +20,6 @@ namespace linearAPI.Controllers
     public class SessionController : ControllerBase
     {
         private readonly ILogger<SessionController> _logger;
-        private LinearRepo<LinearUser> userRepo = new LinearRepo<LinearUser>();
-        private SessionService sessionRepo = SessionService.GetRepo();
 
         public SessionController(ILogger<SessionController> logger)
         {
@@ -23,17 +27,18 @@ namespace linearAPI.Controllers
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("user")]
         [Produces("application/json")]
-        public IActionResult getSessionUser()
+
+      
+        public IActionResult User()
         {
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
+            CookieDatabase cookieDb = new CookieDatabaseImpl_mock();
 
-            var user = SessionService.GetRepo().getUser(userName);
-            if (user == null) return StatusCode(401);
+            // Get user form cookiedatabase
+            var cookie = HttpContext.Request.Cookies.SingleOrDefault();
 
-            return Ok(user);
+            return Ok(new LinearUser("22222", "Jens Testa", "a@b.com", false));
         }
 
         [HttpPost]
@@ -41,29 +46,16 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Login([FromBody] LinearCredentials data)
         {
-            if (LinearAuthentication.AuthenticateCredentials(data))
+            if (LinearAuthorization.Authorize(data))
             {
-                // Find user
-                var user = sessionRepo.getUser(data.username);
-                if (user == null)
-                {
-                    _logger.LogError("Failed login: No such user");
-                    return StatusCode(401);
-                }
-
-                var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, user.UserName, ClaimValueTypes.String)};
-                var userIdentity = new ClaimsIdentity(claims, "sessionIdentity");
-
                 HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(new ClaimsIdentity(userIdentity)))
+                new ClaimsPrincipal(new ClaimsIdentity("12345")))
                     .Wait();
 
-                return Ok(user);
+                return Ok(new LinearUser("33333", "Jens Amazonas", "att@booking.mix", false));
             }
 
-            _logger.LogError("Failed login");
             return StatusCode(401);
         }
 
@@ -79,7 +71,6 @@ namespace linearAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.StackTrace);
                 return StatusCode(500);
             }
         }
