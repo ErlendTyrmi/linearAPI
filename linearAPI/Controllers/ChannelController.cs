@@ -17,7 +17,7 @@ namespace linearAPI.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
-        private LinearDatabase<LinearChannel> dataRepo = new LinearDatabase<LinearChannel>("Generated/");
+        private LinearRepo<LinearChannel> dataRepo = new LinearRepo<LinearChannel>("Generated/");
         private SessionService sessionRepo = SessionService.GetRepo();
 
         public ChannelController(ILogger<LandingController> logger)

@@ -14,14 +14,14 @@ namespace LinearTest
         private static string dataDirectoryName = "Generated/";
 
         // Repos
-        private readonly LinearDatabase<LinearChannel> channelRepo = new(dataDirectoryName);
-        private readonly LinearDatabase<LinearSalesProduct> productRepo = new(dataDirectoryName);
-        private readonly LinearDatabase<LinearSpot> spotRepo = new(dataDirectoryName);
-        private readonly LinearDatabase<LinearAgency> agencyRepo = new(dataDirectoryName);
-        private readonly LinearDatabase<LinearUser> userRepo = new(dataDirectoryName);
-        private readonly LinearDatabase<LinearAdvertiser> advertiserRepo = new(dataDirectoryName);
-        private readonly LinearDatabase<LinearOrder> orderRepo = new(dataDirectoryName);
-        private readonly LinearDatabase<LinearSpotBooking> spotBookingRepo = new(dataDirectoryName);
+        private readonly LinearRepo<LinearChannel> channelRepo = new(dataDirectoryName);
+        private readonly LinearRepo<LinearSalesProduct> productRepo = new(dataDirectoryName);
+        private readonly LinearRepo<LinearSpot> spotRepo = new(dataDirectoryName);
+        private readonly LinearRepo<LinearAgency> agencyRepo = new(dataDirectoryName);
+        private readonly LinearRepo<LinearUser> userRepo = new(dataDirectoryName);
+        private readonly LinearRepo<LinearAdvertiser> advertiserRepo = new(dataDirectoryName);
+        private readonly LinearRepo<LinearOrder> orderRepo = new(dataDirectoryName);
+        private readonly LinearRepo<LinearSpotBooking> spotBookingRepo = new(dataDirectoryName);
 
         [TestMethod]
         public void TestSpot()
@@ -108,7 +108,7 @@ namespace LinearTest
                 // Check order exists and is "specific"
                 var order = orderRepo.Read(booking.OrderId);
                 Assert.IsNotNull(order);
-                Assert.AreEqual(order.OrderTypeName, OrderTypeName.specific);
+                Assert.AreEqual(order.OrderTypeName, OrderTypeName.specific.ToString());
             }
         }
     }

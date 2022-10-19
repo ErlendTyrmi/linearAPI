@@ -17,7 +17,7 @@ namespace linearAPI.Controllers
     public class AgencyController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
-        private LinearDatabase<LinearAgency> dataRepo = new LinearDatabase<LinearAgency>("Generated/");
+        private LinearRepo<LinearAgency> dataRepo = new LinearRepo<LinearAgency>("Generated/");
         private SessionService sessionRepo = SessionService.GetRepo();
 
         public AgencyController(ILogger<LandingController> logger)

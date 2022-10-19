@@ -14,7 +14,7 @@ namespace linearAPI.Controllers
     public class SessionController : ControllerBase
     {
         private readonly ILogger<SessionController> _logger;
-        private LinearDatabase<LinearUser> userRepo = new LinearDatabase<LinearUser>();
+        private LinearRepo<LinearUser> userRepo = new LinearRepo<LinearUser>();
         private SessionService sessionRepo = SessionService.GetRepo();
 
         public SessionController(ILogger<SessionController> logger)

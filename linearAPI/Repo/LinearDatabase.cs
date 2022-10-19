@@ -8,12 +8,12 @@ namespace linearAPI.Repo
     /// General repo class for Linear Entities.
     /// Type arg must implement ILinearEntity.
     /// </summary>
-    public class LinearDatabase<TType>
+    public class LinearRepo<TType>
     {
         private readonly LinearFileHandler fileHandler;
         readonly string EntityName = typeof(TType).Name;
 
-        public LinearDatabase(string? directoryPathArg = null)
+        public LinearRepo(string? directoryPathArg = null)
         {
             fileHandler = new LinearFileHandler(directoryPathArg);
 

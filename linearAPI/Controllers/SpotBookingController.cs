@@ -17,7 +17,7 @@ namespace linearAPI.Controllers
     public class SpotBookingController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
-        private LinearDatabase<LinearSpotBooking> dataRepo = new LinearDatabase<LinearSpotBooking>("Generated/");
+        private LinearRepo<LinearSpotBooking> dataRepo = new LinearRepo<LinearSpotBooking>("Generated/");
         private SessionService sessionRepo = SessionService.GetRepo();
 
         public SpotBookingController(ILogger<LandingController> logger)

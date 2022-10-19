@@ -16,7 +16,7 @@ namespace linearAPI.Controllers
     public class LandingController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
-        private LinearDatabase<LinearOrder> dataRepo = new LinearDatabase<LinearOrder>("Generated/");
+        private LinearRepo<LinearOrder> dataRepo = new LinearRepo<LinearOrder>("Generated/");
         private SessionService sessionRepo = SessionService.GetRepo();
 
         public LandingController(ILogger<LandingController> logger)

@@ -17,7 +17,7 @@ namespace linearAPI.Controllers
     public class SpotController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
-        private LinearDatabase<LinearSpot> dataRepo = new LinearDatabase<LinearSpot>("Generated/");
+        private LinearRepo<LinearSpot> dataRepo = new LinearRepo<LinearSpot>("Generated/");
 
         public SpotController(ILogger<LandingController> logger)
         {

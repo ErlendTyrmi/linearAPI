@@ -17,7 +17,7 @@ namespace linearAPI.Controllers
     public class OrderController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
-        private LinearDatabase<LinearOrder> dataRepo = new LinearDatabase<LinearOrder>("Generated/");
+        private LinearRepo<LinearOrder> dataRepo = new LinearRepo<LinearOrder>("Generated/");
         private SessionService sessionRepo = SessionService.GetRepo();
 
         public OrderController(ILogger<LandingController> logger)

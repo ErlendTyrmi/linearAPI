@@ -23,7 +23,7 @@ namespace linearAPI.Services
         public LinearUser? getUser(string username)
         {
 
-            IList<LinearUser> users = new LinearDatabase<LinearUser>("Generated/").ReadAll();
+            IList<LinearUser> users = new LinearRepo<LinearUser>("Generated/").ReadAll();
 
             foreach (LinearUser user in users)
             {

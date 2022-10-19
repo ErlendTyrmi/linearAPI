@@ -17,7 +17,7 @@ namespace linearAPI.Controllers
     public class SalesProductController : ControllerBase
     {
         private readonly ILogger<LandingController> _logger;
-        private LinearDatabase<LinearSalesProduct> dataRepo = new LinearDatabase<LinearSalesProduct>("Generated/");
+        private LinearRepo<LinearSalesProduct> dataRepo = new LinearRepo<LinearSalesProduct>("Generated/");
 
         public SalesProductController(ILogger<LandingController> logger)
         {

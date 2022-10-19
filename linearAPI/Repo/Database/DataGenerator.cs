@@ -22,6 +22,7 @@ namespace linearAPI.Repo.Database
     {
         private static string dataDirectoryName = "Generated/";
         private static readonly List<string> CampaignWords = GetCampaignWords();
+        private static readonly Random random = new();
 
         public static void Generate()
         {
@@ -29,7 +30,7 @@ namespace linearAPI.Repo.Database
             #region StaticData
 
             // Channels
-            var channelRepo = new LinearDatabase<LinearChannel>(dataDirectoryName);
+            var channelRepo = new LinearRepo<LinearChannel>(dataDirectoryName);
             channelRepo.DeleteAll();
             channelRepo.Create(new LinearChannel(Guid.NewGuid().ToString(), "TVX National", "national"));
             channelRepo.Create(new LinearChannel(Guid.NewGuid().ToString(), "TVX Ung", "ung"));
@@ -38,7 +39,7 @@ namespace linearAPI.Repo.Database
             var channelList = channelRepo.ReadAll();
 
             // CommercialProduct
-            var productRepo = new LinearDatabase<LinearSalesProduct>(dataDirectoryName);
+            var productRepo = new LinearRepo<LinearSalesProduct>(dataDirectoryName);
             productRepo.DeleteAll();
             productRepo.Create(new LinearSalesProduct(Guid.NewGuid().ToString(), "classic 2-1", "2 parts exposure, 1 part specific"));
             productRepo.Create(new LinearSalesProduct(Guid.NewGuid().ToString(), "exposure", ""));
@@ -46,7 +47,7 @@ namespace linearAPI.Repo.Database
             var productList = productRepo.ReadAll();
 
             // Agency
-            LinearDatabase<LinearAgency> agencyRepo = new LinearDatabase<LinearAgency>(dataDirectoryName);
+            LinearRepo<LinearAgency> agencyRepo = new LinearRepo<LinearAgency>(dataDirectoryName);
             agencyRepo.DeleteAll();
             agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "TVX INTERN", "1", false));
             agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "Bling International", "3", false));
@@ -59,7 +60,7 @@ namespace linearAPI.Repo.Database
             IList<LinearAgency> agencyList = agencyRepo.ReadAll();
 
             // Users
-            LinearDatabase<LinearUser> userRepo = new LinearDatabase<LinearUser>(dataDirectoryName);
+            LinearRepo<LinearUser> userRepo = new LinearRepo<LinearUser>(dataDirectoryName);
             userRepo.DeleteAll();
             userRepo.Create(new LinearUser("78d7743d-d607-46ce-9767-0d57f5e1ef84", "Ada Adminsen", "adad", "adad@tvx.dk", agencyList.ElementAt(0).Id, true, true));
             userRepo.Create(new LinearUser("e167d15c-717f-4e9d-b2df-60a1b5af101c", "Eva de Bureau", "edb", "edb@bureau.net", agencyList.ElementAt(1).Id, true, true));
@@ -68,6 +69,8 @@ namespace linearAPI.Repo.Database
             var userList = userRepo.ReadAll();
 
             // Advertisers
+            var advertiserRepo = new LinearRepo<LinearAdvertiser>(dataDirectoryName);
+            advertiserRepo.DeleteAll();
             IList<LinearAdvertiser> advertisers = new List<LinearAdvertiser>();
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "TestAnnoncøren", agencyList.ElementAt(0).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Sodavandsfabrikken A/S", agencyList.ElementAt(1).Id));
@@ -90,35 +93,43 @@ namespace linearAPI.Repo.Database
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Toxic Arbejdssko A/S", agencyList.ElementAt(3).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Dortes Rejser A/S", agencyList.ElementAt(3).Id));
 
-            var advertiserRepo = new LinearDatabase<LinearAdvertiser>(dataDirectoryName);
-            advertiserRepo.DeleteAll();
-
             foreach (var advertiser in advertisers)
             {
                 advertiserRepo.Create(advertiser);
             }
 
             // Spot
-            var spotList = new List<LinearSpot>();
-            for (int i = 1; i < 32; i++)
-            {
-                spotList.Add(new LinearSpot(Guid.NewGuid().ToString(), new DateTime(2023, 1, i, 14, 00, 00), 0, channelList.ElementAt(0).Id, channelList.ElementAt(0).Name, "Fluefiske med Svend"));
-                spotList.Add(new LinearSpot(Guid.NewGuid().ToString(), new DateTime(2023, 1, i, 15, 00, 00), 0, channelList.ElementAt(0).Id, channelList.ElementAt(0).Name, "Madkontoret"));
-                spotList.Add(new LinearSpot(Guid.NewGuid().ToString(), new DateTime(2023, 1, i, 16, 30, 00), 0, channelList.ElementAt(0).Id, channelList.ElementAt(0).Name, "Mord i Oxford"));
-                spotList.Add(new LinearSpot(Guid.NewGuid().ToString(), new DateTime(2023, 1, i, 17, 15, 00), 0, channelList.ElementAt(0).Id, channelList.ElementAt(0).Name, "Livet på slottet"));
-            }
-            var spotRepo = new LinearDatabase<LinearSpot>(dataDirectoryName);
+            var spotRepo = new LinearRepo<LinearSpot>(dataDirectoryName);
             spotRepo.DeleteAll();
+
+            var titles = new List<string> { "Vidunderlige Slotte", "Havens Hemmeligheder", "Kontrolvers", "Hvem siger hvad?", 
+                "Det lille hus i Haderslev", "Til Søs", "Boldknold", "Sportens Verden", "Retrospekt", "Mord i Cambridge", 
+                "Det politiske hjørne", "Nuttede dyr", "Alma redder planeten", "Madkontoret", "De smukke drenge", "Alfreds gamle butik",
+                "Rita tager Risikoen", "Mixifix!", "Bøllemosen - før og nu", "Den kinesiske forbindelse", "The 1%"};
+           
+            var spotList = new List<LinearSpot>();
+
+            for (int day = 1; day < 32; day++)
+            {
+                var randomTitles = Shuffler.ShuffleList<string>(titles);
+                for (int titleIndex = 0; titleIndex < 19;  titleIndex++) {
+                    var hour = titleIndex + 5;
+                    var channel = channelList.ElementAt(random.Next(channelList.Count));
+                    spotList.Add(new LinearSpot(Guid.NewGuid().ToString(), new DateTime(2023, 1, day, hour, 00, 00), 0, channel.Id, channel.Name, titles.ElementAt(titleIndex)));
+                }  
+            }
+            spotList.ForEach((spot) => { Console.WriteLine("On " + spot.ChannelName + " at " + spot.StartDateTime.Hour + ": " + spot.NextProgram); });
             spotRepo.CreateList(spotList);
 
             #endregion
 
             #region Order
+
             // Orders
-            var orders = new List<LinearOrder>();
-            var orderRepo = new LinearDatabase<LinearOrder>(dataDirectoryName);
+            var orderRepo = new LinearRepo<LinearOrder>(dataDirectoryName);
             orderRepo.DeleteAll();
-            var random = new Random();
+            var orders = new List<LinearOrder>();
+
             foreach (var advertiser in advertisers)
             {
                 var agency = agencyRepo.Read(advertiser.Agency);
@@ -139,6 +150,9 @@ namespace linearAPI.Repo.Database
 
                 for (int i = 0; i < orderAmount; i++)
                 {
+                    // Every 10th order is generated as specific order with "specific" salesproduct
+                    var specific = (i % 10 == 0);
+
                     var order = new LinearOrder(
                         id: Guid.NewGuid().ToString(),
                         modifiedTime: DateTime.Now,
@@ -149,18 +163,18 @@ namespace linearAPI.Repo.Database
                         handlerId: agencyUsers.ElementAt(random.Next(agencyUsers.Count)).Id,
                         startWeek: startWeek,
                         endWeek: startWeek + random.Next(1, 4),
-                        // Every 10th order is generated as specific order with specific salesproduct
-                        orderTypeName: (i % 10 == 0) ? OrderTypeName.specific.ToString() : OrderTypeName.exposure.ToString(),
+                        
+                        orderTypeName: specific ? OrderTypeName.specific.ToString() : OrderTypeName.exposure.ToString(),
                         channelId: channelList.ElementAt(random.Next(channelList.Count)).Id,
-                        salesProductId: (i % 10 == 0) ? productList.ElementAt(2).Id : productList.ElementAt(1).Id,
-                        salesProductName: (i % 10 == 0) ? productList.ElementAt(2).Name : productList.ElementAt(1).Name,
+                        salesProductId: specific ? productList.ElementAt(2).Id : productList.ElementAt(1).Id,
+                        salesProductName: specific ? productList.ElementAt(2).Name : productList.ElementAt(1).Name,
                         salesGroupNumber: null,
                         durationSeconds: 30,
                         costPerMille: random.Next(50, 150),
                         viewsExpectedMille: random.Next(1, 100),
                         viewsDeliveredMille: 0,
                         orderStatus: OrderStatus.created.ToString(),
-                        orderBudget: random.Next(200, 700) * 100, //CAst to double
+                        orderBudget: random.Next(200, 700) * 100,
                         orderTotal: 0
                     );
 
@@ -175,7 +189,8 @@ namespace linearAPI.Repo.Database
             #region Spot Booking
 
             // Spot Booking
-            var spotBookingRepo = new LinearDatabase<LinearSpotBooking>(dataDirectoryName);
+            var spotBookingRepo = new LinearRepo<LinearSpotBooking>(dataDirectoryName);
+            spotBookingRepo.DeleteAll();
             IList<LinearSpot> allSpots = spotRepo.ReadAll();
             IList<LinearSpot> updatedSpots = new List<LinearSpot>();
             var  spotbookings = new List<LinearSpotBooking>();
@@ -184,8 +199,8 @@ namespace linearAPI.Repo.Database
             {  
                 if (order.OrderTypeName.Equals(OrderTypeName.specific.ToString()))
                 {
-                    var spot = GetFirstFreeSpot(spotList);
-                    if (spot == null) throw new Exception("Need more spots than orders when generating data.");
+                    var spot = GetAnyFreeSpot(allSpots);
+                    if (spot == null) throw new Exception("Needs to be more spots than orders when generating data.");
 
                     spot.BookedSeconds += order.DurationSeconds; 
                     updatedSpots.Add(spot);
@@ -201,8 +216,9 @@ namespace linearAPI.Repo.Database
 
         #region Helper Methods
 
-        private static LinearSpot? GetFirstFreeSpot(List<LinearSpot> spots) {
-            foreach (var spot in spots) {
+        private static LinearSpot? GetAnyFreeSpot(IList<LinearSpot> spots) {
+            var shuffledSpots = Shuffler.ShuffleList<LinearSpot>(spots);
+            foreach (var spot in shuffledSpots) {
                 if (spot.Duration - spot.BookedSeconds >= 30) return spot; 
             }
             return null;
@@ -224,6 +240,25 @@ namespace linearAPI.Repo.Database
             if (data == null) throw new Exception("Could not deserialize CampaignWords.");
             return data;
         }
+
+        
+
         #endregion
+    }
+
+    class Shuffler{
+        public static IList<TType> ShuffleList<TType>(IList<TType> list)
+        {
+            var random = new Random();
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                var index = random.Next(list.Count - 1);
+                var temp = list[i];
+                list[i] = list[index];
+                list[index] = temp;
+            }
+
+            return list;
+        }
     }
 }
