@@ -12,7 +12,7 @@ namespace linearAPI.Entities
         public LinearUser(
             string id, 
             string name, string username, string email, string agencyId, 
-            bool canDownloadMaterial = false, bool canWrite = false, bool canRead = true)
+            bool canDownloadMaterial = false, bool canWrite = false, bool canRead = true, bool IsAdmin = false)
         {
             // Meta (inherited)
             Id = id;
@@ -28,6 +28,7 @@ namespace linearAPI.Entities
             CanDownloadMaterial = canDownloadMaterial;
             CanWrite = canWrite;
             CanRead = canRead;
+            this.IsAdmin = IsAdmin;
         }
 
         public string Name { get; }
@@ -37,5 +38,6 @@ namespace linearAPI.Entities
         public bool CanDownloadMaterial { get; }
         public bool CanWrite { get; } 
         public bool CanRead { get; }
+        public bool IsAdmin { get; }
     }
 }

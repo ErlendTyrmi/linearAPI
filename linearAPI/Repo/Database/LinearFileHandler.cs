@@ -9,7 +9,7 @@ namespace linearAPI.Repo.Database
 {
     internal class LinearFileHandler
     {
-        private readonly object Writelock = new();
+       // private readonly object Writelock = new();
         const string EXTENSION = ".json";
         string directoryPath = "./Repo/Database/Data/";
 
@@ -47,13 +47,13 @@ namespace linearAPI.Repo.Database
 
         public void Write(string entityName, string serializedData)
         {
-            lock (Writelock)
-            {
+            //lock (Writelock)
+            //{
                 if (entityName == null) throw new Exception($"Missing argument: entityName");
                 if (serializedData == null) throw new Exception($"Missing argument: serializedName");
 
                 File.WriteAllText($"{directoryPath}{entityName}{EXTENSION}", serializedData);
-            }
+           // }
         }
     }
 }

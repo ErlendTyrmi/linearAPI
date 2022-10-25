@@ -62,17 +62,17 @@ namespace linearAPI.Repo.Database.Generator
             // Users
             LinearRepo<LinearUser> userRepo = new LinearRepo<LinearUser>(dataDirectoryName);
             userRepo.DeleteAll();
-            userRepo.Create(new LinearUser("78d7743d-d607-46ce-9767-0d57f5e1ef84", "Ada Adminsen", "adad", "adad@tvx.dk", agencyList.ElementAt(0).Id, true, true));
-            userRepo.Create(new LinearUser("e167d15c-717f-4e9d-b2df-60a1b5af101c", "Eva de Bureau", "edb", "edb@bureau.net", agencyList.ElementAt(1).Id, true, true));
-            userRepo.Create(new LinearUser("21a38b69-9224-48ee-8654-9608abe39bd7", "Bo Hansen", "boha", "boha@hansens.com", agencyList.ElementAt(2).Id, true, true));
-            userRepo.Create(new LinearUser("bef3e140-2ce5-4c68-838c-399059fe4cad", "Julian Noah Gärtmütter", "jung", "jung@b-uniq.com", agencyList.ElementAt(3).Id, true, true));
+            userRepo.Create(new LinearUser("78d7743d-d607-46ce-9767-0d57f5e1ef84", "Ada Adminsen", "adad", "adad@tvx.dk", agencyList.ElementAt(0).Id, true, true, true, true));
+            userRepo.Create(new LinearUser("e167d15c-717f-4e9d-b2df-60a1b5af101c", "Eva de Bureau", "edb", "edb@bureau.net", agencyList.ElementAt(1).Id, true, true, true));
+            userRepo.Create(new LinearUser("21a38b69-9224-48ee-8654-9608abe39bd7", "Bo Hansen", "boha", "boha@hansens.com", agencyList.ElementAt(2).Id, true, true, true));
+            userRepo.Create(new LinearUser("bef3e140-2ce5-4c68-838c-399059fe4cad", "Julian Noah Gärtmütter", "jung", "jung@b-uniq.com", agencyList.ElementAt(3).Id, false, true, true, true));
             var userList = userRepo.ReadAll();
 
             // Advertisers
             var advertiserRepo = new LinearRepo<LinearAdvertiser>(dataDirectoryName);
             advertiserRepo.DeleteAll();
             IList<LinearAdvertiser> advertisers = new List<LinearAdvertiser>();
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "TestAnnoncøren", agencyList.ElementAt(0).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "TVX TestAnnoncør", agencyList.ElementAt(0).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Sodavandsfabrikken A/S", agencyList.ElementAt(1).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Smukke Smykker Til Alle A/S", agencyList.ElementAt(1).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Tandklinikken Whiteout A/S", agencyList.ElementAt(1).Id));
@@ -147,10 +147,11 @@ namespace linearAPI.Repo.Database.Generator
                 if (agencyUsers.Count == 0) throw new Exception("Could not generate mock data: Found no users for agency " + agency.Name + " id: " + agency.Id);
 
                 var orderAmount = random.Next(1, 40);
-                var startWeek = random.Next(1, 8);
+                
 
                 for (int i = 0; i < orderAmount; i++)
                 {
+                    var startWeek = random.Next(1, 6);
                     var specific = i % 4 == 0;
 
                     var order = new LinearOrder(

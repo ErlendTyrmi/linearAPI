@@ -14,7 +14,6 @@ namespace linearAPI.Controllers
     public class SessionController : ControllerBase
     {
         private readonly ILogger<SessionController> _logger;
-        private LinearRepo<LinearUser> userRepo = new LinearRepo<LinearUser>();
         private SessionService sessionRepo = SessionService.GetRepo();
 
         public SessionController(ILogger<SessionController> logger)
@@ -60,7 +59,7 @@ namespace linearAPI.Controllers
                 new ClaimsPrincipal(new ClaimsIdentity(userIdentity)))
                     .Wait();
 
-                return Ok(user);
+               return Ok(user);
             }
 
             _logger.LogError("Failed login");

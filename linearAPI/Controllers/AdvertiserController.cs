@@ -17,8 +17,8 @@ namespace linearAPI.Controllers
     public class AdvertiserController : ControllerBase
     {
         private readonly ILogger<AdvertiserController> _logger;
-        private LinearRepo<LinearAdvertiser> dataRepo = new LinearRepo<LinearAdvertiser>("Generated/");
-        private SessionService sessionRepo = SessionService.GetRepo();
+        private readonly LinearRepo<LinearAdvertiser> dataRepo = new LinearRepo<LinearAdvertiser>("Generated/");
+        private readonly SessionService sessionRepo = SessionService.GetRepo();
 
         public AdvertiserController(ILogger<AdvertiserController> logger)
         {

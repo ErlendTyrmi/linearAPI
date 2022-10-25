@@ -8,6 +8,8 @@ namespace linearAPI.Services
 {
     public class SessionService
     {
+        IList<LinearUser> users = new LinearRepo<LinearUser>("Generated/").ReadAll();
+
         #region Singleton 
 
         private static SessionService? testSingleton;
@@ -22,8 +24,6 @@ namespace linearAPI.Services
 
         public LinearUser? getUser(string username)
         {
-
-            IList<LinearUser> users = new LinearRepo<LinearUser>("Generated/").ReadAll();
 
             foreach (LinearUser user in users)
             {

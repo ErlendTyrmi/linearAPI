@@ -12,6 +12,7 @@ namespace linearAPI.Repo
     {
         private readonly LinearFileHandler fileHandler;
         readonly string EntityName = typeof(TType).Name;
+        private readonly object Writelock = new();
 
         public LinearRepo(string? directoryPathArg = null)
         {
@@ -41,7 +42,10 @@ namespace linearAPI.Repo
             }
 
             var serialized = JsonSerializer.Serialize(entities);
-            fileHandler.Write(EntityName, serialized);
+            lock (Writelock)
+            {
+                fileHandler.Write(EntityName, serialized);
+            }
         }
 
         public void CreateList(IList<TType> entities)
@@ -69,7 +73,10 @@ namespace linearAPI.Repo
             }
 
             var serialized = JsonSerializer.Serialize(entitiesDict);
-            fileHandler.Write(EntityName, serialized);
+            lock (Writelock)
+            {
+                fileHandler.Write(EntityName, serialized);
+            }
         }
 
         // Optional
@@ -117,7 +124,10 @@ namespace linearAPI.Repo
                 {
                     // Success
                     var serialized = JsonSerializer.Serialize(entityDictionary);
-                    fileHandler.Write(EntityName, serialized);
+                    lock (Writelock)
+                    {
+                        fileHandler.Write(EntityName, serialized);
+                    }
                     return deleted;
                 }
             }
@@ -132,7 +142,10 @@ namespace linearAPI.Repo
             {
                 entityDictionary.Clear();
                 var empty = JsonSerializer.Serialize(entityDictionary);
-                fileHandler.Write(EntityName, empty);
+                lock (Writelock)
+                {
+                    fileHandler.Write(EntityName, empty);
+                }
             }
 
             return entityDictionary;
