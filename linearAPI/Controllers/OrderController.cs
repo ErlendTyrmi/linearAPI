@@ -55,7 +55,7 @@ namespace linearAPI.Controllers
         [HttpGet]
         [Route("mine")]
         [Produces("application/json")]
-        public IActionResult GetByUser(string userId)
+        public IActionResult GetByUserId(string userId)
         {
             string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
             if (userName == null) return StatusCode(401);

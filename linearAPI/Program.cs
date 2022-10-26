@@ -7,7 +7,7 @@ using Microsoft.Net.Http.Headers;
 var builder = WebApplication.CreateBuilder(args);
 var corsSettings = "_allowSpecificOriginsDev";
 
-DataGenerator.Generate();
+//DataGenerator.Generate();
 
 // Add services to the container.
 builder.Services.AddControllers();

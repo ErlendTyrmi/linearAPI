@@ -133,7 +133,7 @@ namespace linearAPI.Repo.Database.Generator
 
             foreach (var advertiser in advertisers)
             {
-                var agency = agencyRepo.Read(advertiser.Agency);
+                var agency = agencyRepo.Read(advertiser.AgencyId);
                 if (agency == null) throw new Exception("Could not generate mock data because agency was not found");
                 List<LinearUser>? agencyUsers = new();
 

@@ -11,13 +11,13 @@ namespace linearAPI.Entities
 
         // Data
         public string Name { get; }
-        public string Agency { get; }
+        public string AgencyId { get; }
 
-        public LinearAdvertiser(string id, string name, string agency) {
+        public LinearAdvertiser(string id, string name, string agencyId) {
             Id = id;
             ModifiedTime = DateTime.Now;
             Name = name;
-            Agency = agency;
+            AgencyId = agencyId;
         }
 
         
