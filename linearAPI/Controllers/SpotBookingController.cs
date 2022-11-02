@@ -1,6 +1,7 @@
 using linearAPI.Entities;
 using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,13 +17,15 @@ namespace linearAPI.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class SpotBookingController : ControllerBase
     {
-        private readonly ILogger<SpotBookingController> _logger;
-        private LinearRepo<LinearSpotBooking> dataRepo = new LinearRepo<LinearSpotBooking>("Generated/");
-        private SessionService sessionRepo = SessionService.GetRepo();
+        private readonly ILogger<SpotBookingController> logger;
+        private readonly LinearAccess<LinearSpotBooking> spotBookingRepo;
+        private readonly ISessionService sessionService;
 
-        public SpotBookingController(ILogger<SpotBookingController> logger)
+        public SpotBookingController(ILogger<SpotBookingController> logger, ISessionService sessionService, ILinearRepo repo)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.sessionService = sessionService;
+            this.spotBookingRepo = repo.SpotBooking;
         }
 
         [HttpGet]
@@ -34,7 +37,7 @@ namespace linearAPI.Controllers
             string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
             if (userName == null) return StatusCode(401);
 
-            var data = dataRepo.Read(id);
+            var data = spotBookingRepo.Read(id);
             if (data == null) return StatusCode(404);
 
             return Ok(data);
@@ -49,7 +52,7 @@ namespace linearAPI.Controllers
             string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
             if (userName == null) return StatusCode(401);
 
-            var data = dataRepo.ReadAll();
+            var data = spotBookingRepo.ReadAll();
             if (data == null) return StatusCode(404);
 
             return Ok(data);

@@ -30,7 +30,7 @@ namespace linearAPI.Repo.Database.Generator
             #region StaticData
 
             // Channels
-            var channelRepo = new LinearRepo<LinearChannel>(dataDirectoryName);
+            var channelRepo = new LinearAccess<LinearChannel>(dataDirectoryName);
             channelRepo.DeleteAll();
             channelRepo.Create(new LinearChannel(Guid.NewGuid().ToString(), "TVX National", "national"));
             channelRepo.Create(new LinearChannel(Guid.NewGuid().ToString(), "TVX Ung", "ung"));
@@ -39,7 +39,7 @@ namespace linearAPI.Repo.Database.Generator
             var channelList = channelRepo.ReadAll();
 
             // CommercialProduct
-            var productRepo = new LinearRepo<LinearSalesProduct>(dataDirectoryName);
+            var productRepo = new LinearAccess<LinearSalesProduct>(dataDirectoryName);
             productRepo.DeleteAll();
             productRepo.Create(new LinearSalesProduct(Guid.NewGuid().ToString(), "classic 2-1", "2 parts exposure, 1 part specific"));
             productRepo.Create(new LinearSalesProduct(Guid.NewGuid().ToString(), "exposure", ""));
@@ -47,9 +47,9 @@ namespace linearAPI.Repo.Database.Generator
             var productList = productRepo.ReadAll();
 
             // Agency
-            LinearRepo<LinearAgency> agencyRepo = new LinearRepo<LinearAgency>(dataDirectoryName);
+            LinearAccess<LinearAgency> agencyRepo = new LinearAccess<LinearAgency>(dataDirectoryName);
             agencyRepo.DeleteAll();
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "TVX INTERN", "1", false));
+            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "TVX INTERN", "1", true));
             agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "Bling International", "3", false));
             agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "Hansens Reklameagentur", "3", false));
             agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "B-UNIQ", "2", false));
@@ -60,7 +60,7 @@ namespace linearAPI.Repo.Database.Generator
             IList<LinearAgency> agencyList = agencyRepo.ReadAll();
 
             // Users
-            LinearRepo<LinearUser> userRepo = new LinearRepo<LinearUser>(dataDirectoryName);
+            LinearAccess<LinearUser> userRepo = new LinearAccess<LinearUser>(dataDirectoryName);
             userRepo.DeleteAll();
             userRepo.Create(new LinearUser("78d7743d-d607-46ce-9767-0d57f5e1ef84", "Ada Adminsen", "adad", "adad@tvx.dk", agencyList.ElementAt(0).Id, true, true, true, true));
             userRepo.Create(new LinearUser("e167d15c-717f-4e9d-b2df-60a1b5af101c", "Eva de Bureau", "edb", "edb@bureau.net", agencyList.ElementAt(1).Id, true, true, true));
@@ -69,7 +69,7 @@ namespace linearAPI.Repo.Database.Generator
             var userList = userRepo.ReadAll();
 
             // Advertisers
-            var advertiserRepo = new LinearRepo<LinearAdvertiser>(dataDirectoryName);
+            var advertiserRepo = new LinearAccess<LinearAdvertiser>(dataDirectoryName);
             advertiserRepo.DeleteAll();
             IList<LinearAdvertiser> advertisers = new List<LinearAdvertiser>();
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "TVX TestAnnoncør", agencyList.ElementAt(0).Id));
@@ -82,8 +82,8 @@ namespace linearAPI.Repo.Database.Generator
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Beaujoulais Vine A/S", agencyList.ElementAt(1).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "A.K. Bygmand A/S", agencyList.ElementAt(1).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Det Lækre Brød A/S", agencyList.ElementAt(2).Id));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Fisker Find A/S", agencyList.ElementAt(3).Id));
-            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Fancy Party & udklædning A/S", agencyList.ElementAt(3).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Fisker Find A/S", agencyList.ElementAt(2).Id));
+            advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Fancy Party & udklædning A/S", agencyList.ElementAt(2).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Restaurant Bacchus A/S", agencyList.ElementAt(3).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "Milli Vanilli Babytøj A/S", agencyList.ElementAt(3).Id));
             advertisers.Add(new LinearAdvertiser(Guid.NewGuid().ToString(), "FixDinI-Phone.net A/S", agencyList.ElementAt(3).Id));
@@ -99,7 +99,7 @@ namespace linearAPI.Repo.Database.Generator
             }
 
             // Spot
-            var spotRepo = new LinearRepo<LinearSpot>(dataDirectoryName);
+            var spotRepo = new LinearAccess<LinearSpot>(dataDirectoryName);
             spotRepo.DeleteAll();
 
             var titles = new List<string> { "Vidunderlige Slotte", "Havens Hemmeligheder", "Kontrolvers", "Hvem siger hvad?",
@@ -127,7 +127,7 @@ namespace linearAPI.Repo.Database.Generator
             #region Order
 
             // Orders
-            var orderRepo = new LinearRepo<LinearOrder>(dataDirectoryName);
+            var orderRepo = new LinearAccess<LinearOrder>(dataDirectoryName);
             orderRepo.DeleteAll();
             var orders = new List<LinearOrder>();
 
@@ -190,7 +190,7 @@ namespace linearAPI.Repo.Database.Generator
             #region Spot Booking
 
             // Spot Booking
-            var spotBookingRepo = new LinearRepo<LinearSpotBooking>(dataDirectoryName);
+            var spotBookingRepo = new LinearAccess<LinearSpotBooking>(dataDirectoryName);
             spotBookingRepo.DeleteAll();
             IList<LinearSpot> allSpots = spotRepo.ReadAll();
             IList<LinearSpot> updatedSpots = new List<LinearSpot>();

@@ -1,6 +1,7 @@
 using linearAPI.Entities;
 using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,13 +17,15 @@ namespace linearAPI.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class AdvertiserController : ControllerBase
     {
-        private readonly ILogger<AdvertiserController> _logger;
-        private readonly LinearRepo<LinearAdvertiser> advertiserRepo = new LinearRepo<LinearAdvertiser>("Generated/");
-        private readonly SessionService sessionService = SessionService.GetRepo();
+        private readonly ILogger<AdvertiserController> logger;
+        private readonly LinearAccess<LinearAdvertiser> advertiserRepo;
+        private readonly ISessionService sessionService;
 
-        public AdvertiserController(ILogger<AdvertiserController> logger)
+        public AdvertiserController(ILogger<AdvertiserController> logger, ISessionService sessionService, ILinearRepo repo)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.sessionService = sessionService;
+            this.advertiserRepo = repo.Advertiser;
         }
 
         [HttpGet]
@@ -36,7 +39,7 @@ namespace linearAPI.Controllers
             LinearUser? user = sessionService.getUser(userName);
             if (user == null)
             {
-                _logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
+                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
                 return StatusCode(500);
             }
 
@@ -51,9 +54,9 @@ namespace linearAPI.Controllers
         }
 
         [HttpGet]
-        [Route("mine")]
+        [Route("own")]
         [Produces("application/json")]
-        public IActionResult GetByUser(string userId)
+        public IActionResult GetByAgency()
         {
             string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
             if (userName == null) return StatusCode(401);
@@ -61,14 +64,12 @@ namespace linearAPI.Controllers
             LinearUser? user = sessionService.getUser(userName);
             if (user == null)
             {
-                _logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
+                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
                 return StatusCode(500);
             }
 
             var allAdvertisers = advertiserRepo.ReadAll();
             if (allAdvertisers == null) return StatusCode(404);
-
-            if (user.IsAdmin) return Ok(allAdvertisers);
 
             var advertisers = allAdvertisers.Where((it) =>  it.AgencyId == user.AgencyId);
 
@@ -86,7 +87,7 @@ namespace linearAPI.Controllers
             LinearUser? user = sessionService.getUser(userName);
             if (user == null)
             {
-                _logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
+                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
                 return StatusCode(500);
             }
 

@@ -1,6 +1,7 @@
 using linearAPI.Entities;
 using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,13 +17,13 @@ namespace linearAPI.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class AgencyController : ControllerBase
     {
-        private readonly ILogger<AgencyController> _logger;
-        private LinearRepo<LinearAgency> dataRepo = new LinearRepo<LinearAgency>("Generated/");
-        private SessionService sessionRepo = SessionService.GetRepo();
+        private readonly ILogger<AgencyController> logger;
+        private readonly LinearAccess<LinearAgency> agencyRepo;
 
-        public AgencyController(ILogger<AgencyController> logger)
+        public AgencyController(ILogger<AgencyController> logger, ISessionService sessionService, ILinearRepo repo)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.agencyRepo = repo.Agency;
         }
 
         [HttpGet]
@@ -30,10 +31,7 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get(string id)
         {
-            //string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            //if (userName == null) return StatusCode(401);
-
-            var data = dataRepo.Read(id);
+            var data = agencyRepo.Read(id);
             if (data == null) return StatusCode(404);
 
             return Ok(data);
@@ -44,10 +42,7 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
-            //string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            //if (userName == null) return StatusCode(401);
-
-            var data = dataRepo.ReadAll();
+            var data = agencyRepo.ReadAll();
             if (data == null) return StatusCode(404);
 
             return Ok(data);

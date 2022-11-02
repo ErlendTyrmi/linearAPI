@@ -1,6 +1,7 @@
 using linearAPI.Entities;
 using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +18,15 @@ namespace linearAPI.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class OrderController : ControllerBase
     {
-        private readonly ILogger<OrderController> _logger;
-        private readonly LinearRepo<LinearOrder> dataRepo = new LinearRepo<LinearOrder>("Generated/");
-        private readonly SessionService sessionService = SessionService.GetRepo();
+        private readonly ILogger<OrderController> logger;
+        private readonly LinearAccess<LinearOrder> OrderRepo;
+        private readonly ISessionService sessionService;
 
-        public OrderController(ILogger<OrderController> logger)
+        public OrderController(ILogger<OrderController> logger, ISessionService sessionService, ILinearRepo repo)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.sessionService = sessionService;
+            this.OrderRepo = repo.Order;
         }
 
         [HttpGet]
@@ -37,11 +40,11 @@ namespace linearAPI.Controllers
             LinearUser? user = sessionService.getUser(userName);
             if (user == null)
             {
-                _logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
+                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
                 return StatusCode(500);
             }
 
-            var data = dataRepo.Read(id);
+            var data = OrderRepo.Read(id);
 
             if (data == null) return StatusCode(404);
 
@@ -53,55 +56,52 @@ namespace linearAPI.Controllers
         }
 
         [HttpGet]
-        [Route("mine")]
+        [Route("own")]
         [Produces("application/json")]
-        public IActionResult GetByUserId(string userId)
+        public IActionResult GetByUserId()
         {
             string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
             if (userName == null) return StatusCode(401);
 
-            LinearUser? callingUser = sessionService.getUser(userName);
-            if (callingUser == null)
+            LinearUser? user = sessionService.getUser(userName);
+            if (user == null)
             {
-                _logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
+                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
                 return StatusCode(500);
             }
 
-            var data = dataRepo.ReadAll();
+            var data = OrderRepo.ReadAll();
             if (data == null) return StatusCode(404);
 
-            // Block impersonation for non-admins
-            if (callingUser.IsAdmin == false && userId != callingUser.Id) return StatusCode(403);
-
-            var userData = data.Where((it) => it.HandlerId == userId);
+            var userData = data.Where((it) => it.HandlerId == user.Id);
 
             return Ok(userData);
         }
 
-        [HttpGet]
-        [Route("all")]
-        [Produces("application/json")]
-        public IActionResult Get()
-        {
+        //[HttpGet]
+        //[Route("all")]
+        //[Produces("application/json")]
+        //public IActionResult Get()
+        //{
 
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
+        //    string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
+        //    if (userName == null) return StatusCode(401);
 
-            LinearUser? handler = sessionService.getUser(userName);
-            if (handler == null)
-            {
-                _logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
-                return StatusCode(500);
-            }
+        //    LinearUser? handler = sessionService.getUser(userName);
+        //    if (handler == null)
+        //    {
+        //        _logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
+        //        return StatusCode(500);
+        //    }
 
-            if (!handler.IsAdmin) return StatusCode(403);
+        //    if (!handler.IsAdmin) return StatusCode(403);
 
-            var data = dataRepo.ReadAll();
-            if (data == null) return StatusCode(404);
+        //    var data = dataRepo.ReadAll();
+        //    if (data == null) return StatusCode(404);
 
-            if (handler.IsAdmin) return Ok(data);
+        //    if (handler.IsAdmin) return Ok(data);
 
-            return Ok(data.Take(100));
-        }
+        //    return Ok(data.Take(100));
+        //}
     }
 }

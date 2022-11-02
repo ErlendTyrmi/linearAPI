@@ -1,6 +1,7 @@
 using linearAPI.Entities;
 using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +17,13 @@ namespace linearAPI.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class SalesProductController : ControllerBase
     {
-        private readonly ILogger<SalesProductController> _logger;
-        private LinearRepo<LinearSalesProduct> dataRepo = new LinearRepo<LinearSalesProduct>("Generated/");
+        private readonly ILogger<SalesProductController> logger;
+        private readonly LinearAccess<LinearSalesProduct> salesProductRepo;
 
-        public SalesProductController(ILogger<SalesProductController> logger)
+        public SalesProductController(ILogger<SalesProductController> logger, ILinearRepo repo)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.salesProductRepo = repo.SalesProduct;
         }
 
         [HttpGet]
@@ -29,7 +31,7 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
-            var data = dataRepo.ReadAll();
+            var data = salesProductRepo.ReadAll();
             if (data == null) return StatusCode(404);
 
             return Ok(data);

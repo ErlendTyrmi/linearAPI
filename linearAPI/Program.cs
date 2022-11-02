@@ -1,6 +1,7 @@
 using linearAPI.Entities;
 using linearAPI.Repo;
 using linearAPI.Repo.Database.Generator;
+using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Net.Http.Headers;
 
@@ -18,7 +19,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(
         name: corsSettings,
-        policy => {
+        policy =>
+        {
             policy
             .WithOrigins("http://localhost:3000")
             .WithMethods("GET", "PUT", "POST", "DELETE")
@@ -47,7 +49,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
     });
 
-
+builder.Services.AddSingleton<ILinearRepo, LinearRepo>();
+builder.Services.AddTransient<ISessionService, SessionService>();
 
 var app = builder.Build();
 

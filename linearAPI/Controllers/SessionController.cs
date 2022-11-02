@@ -13,12 +13,13 @@ namespace linearAPI.Controllers
     [Route("[controller]")]
     public class SessionController : ControllerBase
     {
-        private readonly ILogger<SessionController> _logger;
-        private SessionService sessionRepo = SessionService.GetRepo();
+        private readonly ILogger<SessionController> logger;
+        private readonly ISessionService sessionService;
 
-        public SessionController(ILogger<SessionController> logger)
+        public SessionController(ILogger<SessionController> logger, ISessionService sessionService)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.sessionService = sessionService;
         }
 
         [HttpGet]
@@ -29,7 +30,7 @@ namespace linearAPI.Controllers
             string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
             if (userName == null) return StatusCode(401);
 
-            var user = SessionService.GetRepo().getUser(userName);
+            var user = sessionService.getUser(userName);
             if (user == null) return StatusCode(401);
 
             return Ok(user);
@@ -43,10 +44,10 @@ namespace linearAPI.Controllers
             if (LinearAuthentication.AuthenticateCredentials(data))
             {
                 // Find user
-                var user = sessionRepo.getUser(data.username);
+                var user = sessionService.getUser(data.username);
                 if (user == null)
                 {
-                    _logger.LogError("Failed login: No such user");
+                    logger.LogError("Failed login: No such user: " + data.username);
                     return StatusCode(401);
                 }
 
@@ -62,7 +63,7 @@ namespace linearAPI.Controllers
                return Ok(user);
             }
 
-            _logger.LogError("Failed login");
+            logger.LogError("Failed login: Credentials rejected.");
             return StatusCode(401);
         }
 
@@ -78,7 +79,7 @@ namespace linearAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.StackTrace);
+                logger.LogError(ex.StackTrace);
                 return StatusCode(500);
             }
         }

@@ -1,26 +1,15 @@
 ﻿using linearAPI.Entities;
 using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using System.Collections;
 using System.Net;
 using System.Reflection.Metadata.Ecma335;
 
 namespace linearAPI.Services
 {
-    public class SessionService
+    public class SessionService : ISessionService
     {
-        IList<LinearUser> users = new LinearRepo<LinearUser>("Generated/").ReadAll();
-
-        #region Singleton 
-
-        private static SessionService? testSingleton;
-
-        public static SessionService GetRepo()
-        {
-            testSingleton ??= new SessionService();
-            return testSingleton;
-        }
-
-        #endregion
+        IList<LinearUser> users = new LinearAccess<LinearUser>("Generated/").ReadAll();
 
         public LinearUser? getUser(string username)
         {

@@ -1,6 +1,7 @@
 using linearAPI.Entities;
 using linearAPI.Entities.BaseEntity;
 using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,13 +17,13 @@ namespace linearAPI.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class ChannelController : ControllerBase
     {
-        private readonly ILogger<ChannelController> _logger;
-        private LinearRepo<LinearChannel> dataRepo = new LinearRepo<LinearChannel>("Generated/");
-        private SessionService sessionRepo = SessionService.GetRepo();
+        private readonly ILogger<ChannelController> logger;
+        private readonly LinearAccess<LinearChannel> ChannelRepo;
 
-        public ChannelController(ILogger<ChannelController> logger)
+        public ChannelController(ILogger<ChannelController> logger, ILinearRepo repo)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.ChannelRepo = repo.Channel;
         }
 
         [HttpGet]
@@ -30,7 +31,7 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
-            var data = dataRepo.ReadAll();
+            var data = ChannelRepo.ReadAll();
             if (data == null) return StatusCode(404);
 
             return Ok(data);

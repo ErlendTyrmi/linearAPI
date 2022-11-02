@@ -1,5 +1,5 @@
 using linearAPI.Entities;
-using linearAPI.Repo;
+using linearAPI.Repo.Database;
 using static linearAPI.Util.Enums;
 
 namespace LinearTest
@@ -14,14 +14,14 @@ namespace LinearTest
         private static string dataDirectoryName = "Generated/";
 
         // Repos
-        private readonly LinearRepo<LinearChannel> channelRepo = new(dataDirectoryName);
-        private readonly LinearRepo<LinearSalesProduct> productRepo = new(dataDirectoryName);
-        private readonly LinearRepo<LinearSpot> spotRepo = new(dataDirectoryName);
-        private readonly LinearRepo<LinearAgency> agencyRepo = new(dataDirectoryName);
-        private readonly LinearRepo<LinearUser> userRepo = new(dataDirectoryName);
-        private readonly LinearRepo<LinearAdvertiser> advertiserRepo = new(dataDirectoryName);
-        private readonly LinearRepo<LinearOrder> orderRepo = new(dataDirectoryName);
-        private readonly LinearRepo<LinearSpotBooking> spotBookingRepo = new(dataDirectoryName);
+        private readonly LinearAccess<LinearChannel> channelRepo = new(dataDirectoryName);
+        private readonly LinearAccess<LinearSalesProduct> productRepo = new(dataDirectoryName);
+        private readonly LinearAccess<LinearSpot> spotRepo = new(dataDirectoryName);
+        private readonly LinearAccess<LinearAgency> agencyRepo = new(dataDirectoryName);
+        private readonly LinearAccess<LinearUser> userRepo = new(dataDirectoryName);
+        private readonly LinearAccess<LinearAdvertiser> advertiserRepo = new(dataDirectoryName);
+        private readonly LinearAccess<LinearOrder> orderRepo = new(dataDirectoryName);
+        private readonly LinearAccess<LinearSpotBooking> spotBookingRepo = new(dataDirectoryName);
 
         [TestMethod]
         public void TestSpot()
@@ -60,8 +60,8 @@ namespace LinearTest
             foreach (var advertiser in advertisers)
             {
                 Assert.IsNotNull(advertiser);
-                Assert.IsNotNull(agencyRepo.Read(advertiser.Agency));
-                Assert.AreEqual(agencyRepo.Read(advertiser.Agency)?.Id, advertiser.Agency);
+                Assert.IsNotNull(agencyRepo.Read(advertiser.AgencyId));
+                Assert.AreEqual(agencyRepo.Read(advertiser.AgencyId)?.Id, advertiser.AgencyId);
             }
         }
 
