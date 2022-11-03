@@ -33,15 +33,9 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get(string id)
         {
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
-
-            LinearUser? user = sessionService.getUser(userName);
-            if (user == null)
-            {
-                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
-                return StatusCode(500);
-            }
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
 
             var advertiser = advertiserRepo.Read(id);
             if (advertiser == null) return StatusCode(404);
@@ -58,15 +52,9 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult GetByAgency()
         {
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
-
-            LinearUser? user = sessionService.getUser(userName);
-            if (user == null)
-            {
-                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
-                return StatusCode(500);
-            }
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
 
             var allAdvertisers = advertiserRepo.ReadAll();
             if (allAdvertisers == null) return StatusCode(404);
@@ -81,15 +69,9 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
-
-            LinearUser? user = sessionService.getUser(userName);
-            if (user == null)
-            {
-                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
-                return StatusCode(500);
-            }
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
 
             if (!user.IsAdmin) return StatusCode(403);
 

@@ -19,11 +19,13 @@ namespace linearAPI.Controllers
     {
         private readonly ILogger<SpotController> _logger;
         private readonly LinearAccess<LinearSpot> SpotRepo;
+        private readonly ISessionService sessionService;
 
-        public SpotController(ILogger<SpotController> logger, ILinearRepo repo)
+        public SpotController(ILogger<SpotController> logger, ILinearRepo repo, ISessionService sessionService)
         {
             _logger = logger;
             this.SpotRepo = repo.Spot;
+            this.sessionService = sessionService;
         }
 
         [HttpGet]
@@ -31,6 +33,10 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
+
             var data = SpotRepo.ReadAll();
             if (data == null) return StatusCode(404);
 

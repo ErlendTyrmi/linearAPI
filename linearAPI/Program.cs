@@ -7,8 +7,9 @@ using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var corsSettings = "_allowSpecificOriginsDev";
+var cookieTimeout = new TimeSpan(0, 120, 0);
 
-//DataGenerator.Generate();
+DataGenerator.Generate();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -22,7 +23,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-            .WithOrigins("http://localhost:3000")
+            .WithOrigins("http://localhost:3000", "https://localhost:3000")
             .WithMethods("GET", "PUT", "POST", "DELETE")
             .AllowCredentials()
             .WithHeaders(HeaderNames.Accept, HeaderNames.ContentType, HeaderNames.Authorization);
@@ -35,22 +36,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.Cookie.Name = "session_cookie";
         options.SlidingExpiration = true;
-
-        options.ExpireTimeSpan = new TimeSpan(0, 60, 0);
-
+        options.ExpireTimeSpan = cookieTimeout;
         options.Events.OnRedirectToLogin = (context) =>
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             return Task.CompletedTask;
         };
-
         options.Cookie.HttpOnly = true;
         // Only use this when the sites are on different domains
         options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
     });
 
-builder.Services.AddSingleton<ILinearRepo, LinearRepo>();
-builder.Services.AddTransient<ISessionService, SessionService>();
+var linearRepo = new LinearRepo("generated/");
+builder.Services.AddSingleton(typeof(ILinearRepo), linearRepo);
+builder.Services.AddSingleton(
+    typeof(ISessionService),
+    new SessionService(linearRepo.User, linearRepo.Session, new TimeSpan(0, 0, 30))
+    );
 
 var app = builder.Build();
 

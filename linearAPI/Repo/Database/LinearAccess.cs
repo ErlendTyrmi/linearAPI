@@ -13,8 +13,11 @@ namespace linearAPI.Repo.Database
         readonly string EntityName = typeof(TType).Name;
         private readonly object Writelock = new();
 
-        public LinearAccess(string? directoryPathArg = null)
+        public LinearAccess(string directoryPathArg)
         {
+            if (directoryPathArg == null) { 
+                throw new ArgumentNullException(nameof(directoryPathArg));
+            }
             fileHandler = new LinearFileHandler(directoryPathArg);
 
             // Make sure TType is linear entity
@@ -145,6 +148,27 @@ namespace linearAPI.Repo.Database
                 lock (Writelock)
                 {
                     fileHandler.Write(EntityName, empty);
+                }
+            }
+
+            return entityDictionary;
+        }
+
+        public IDictionary<string, TType>? DeleteSeveral(List<string> ids)
+        {
+            var entityDictionary = ReadAllAsDictionary();
+            if (entityDictionary != null)
+            {
+                ids.ForEach((it) => {
+                    if (entityDictionary.ContainsKey(it)) {
+                        entityDictionary.Remove(it);
+                    }
+                });
+                
+                var slimmed = JsonSerializer.Serialize(entityDictionary);
+                lock (Writelock)
+                {
+                    fileHandler.Write(EntityName, slimmed);
                 }
             }
 

@@ -205,7 +205,11 @@ namespace linearAPI.Repo.Database.Generator
 
                     spot.BookedSeconds += order.DurationSeconds;
                     updatedSpots.Add(spot);
-                    spotbookings.Add(new LinearSpotBooking(Guid.NewGuid().ToString(), spot.Id, order.Id));
+
+                    var advertiser = advertiserRepo.Read(order.AdvertiserId);
+                    if (advertiser == null) throw new Exception("Generator: Could not find advertiser " + order.AdvertiserId);
+
+                    spotbookings.Add(new LinearSpotBooking(Guid.NewGuid().ToString(), spot.Id, order.Id, advertiser.AgencyId));
                 }
             }
 

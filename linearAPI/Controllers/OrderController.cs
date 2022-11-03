@@ -34,15 +34,9 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult GetById(string id)
         {
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
-
-            LinearUser? user = sessionService.getUser(userName);
-            if (user == null)
-            {
-                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
-                return StatusCode(500);
-            }
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
 
             var data = OrderRepo.Read(id);
 
@@ -60,15 +54,9 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult GetByUserId()
         {
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
-
-            LinearUser? user = sessionService.getUser(userName);
-            if (user == null)
-            {
-                logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
-                return StatusCode(500);
-            }
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
 
             var data = OrderRepo.ReadAll();
             if (data == null) return StatusCode(404);

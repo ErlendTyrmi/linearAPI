@@ -4,6 +4,9 @@ namespace linearAPI.Services
 {
     public interface ISessionService
     {
-        LinearUser? getUser(string username);
+        LinearUser? getUserFromUserName(string username);
+        LinearUser? AssertSignedIn(string? sessionId);
+        void SignOut(string sessionId);
+        string SignIn(LinearUser user);
     }
 }

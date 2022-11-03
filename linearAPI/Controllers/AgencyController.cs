@@ -18,11 +18,13 @@ namespace linearAPI.Controllers
     public class AgencyController : ControllerBase
     {
         private readonly ILogger<AgencyController> logger;
-        private readonly LinearAccess<LinearAgency> agencyRepo;
+        private readonly ILinearAccess<LinearAgency> agencyRepo;
+        private readonly ISessionService sessionService;
 
         public AgencyController(ILogger<AgencyController> logger, ISessionService sessionService, ILinearRepo repo)
         {
             this.logger = logger;
+            this.sessionService = sessionService;
             this.agencyRepo = repo.Agency;
         }
 
@@ -31,6 +33,10 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get(string id)
         {
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
+
             var data = agencyRepo.Read(id);
             if (data == null) return StatusCode(404);
 
@@ -42,6 +48,10 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
+
             var data = agencyRepo.ReadAll();
             if (data == null) return StatusCode(404);
 

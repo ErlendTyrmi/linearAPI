@@ -1,5 +1,6 @@
 ﻿using linearAPI.Entities;
 using linearAPI.Repo.Database;
+using linearAPI.Services;
 
 namespace linearAPI.Repo
 {
@@ -13,5 +14,6 @@ namespace linearAPI.Repo
         LinearAccess<LinearSpot> Spot { get; }
         LinearAccess<LinearSpotBooking> SpotBooking { get; }
         LinearAccess<LinearUser> User { get; }
+        LinearAccess<LinearSession> Session { get; }
     }
 }

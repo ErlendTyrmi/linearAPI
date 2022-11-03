@@ -67,25 +67,4 @@ namespace linearAPI.Entities
         public string NextProgram { get; set; }
         public string CpmPrice { get; set; }
     }
-
-    [Serializable]
-    public class LinearSpotBooking : ILinearEntity
-    {
-        // Meta
-        public string Id { get; set; }
-        public DateTime ModifiedTime { get; set; }
-
-        public LinearSpotBooking(string id, string spotId, string orderId)
-        {
-            Id = id;
-            ModifiedTime = DateTime.Now;
-            SpotId = spotId;
-            OrderId = orderId;
-        }
-
-        public string SpotId { get; }
-        public string OrderId { get; }
-    }
-
-
 }

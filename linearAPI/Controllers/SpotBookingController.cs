@@ -6,9 +6,6 @@ using linearAPI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Security.Claims;
-
 
 namespace linearAPI.Controllers
 {
@@ -19,6 +16,7 @@ namespace linearAPI.Controllers
     {
         private readonly ILogger<SpotBookingController> logger;
         private readonly LinearAccess<LinearSpotBooking> spotBookingRepo;
+        private readonly LinearAccess<LinearOrder> orderRepo;
         private readonly ISessionService sessionService;
 
         public SpotBookingController(ILogger<SpotBookingController> logger, ISessionService sessionService, ILinearRepo repo)
@@ -26,6 +24,7 @@ namespace linearAPI.Controllers
             this.logger = logger;
             this.sessionService = sessionService;
             this.spotBookingRepo = repo.SpotBooking;
+            this.orderRepo = repo.Order;
         }
 
         [HttpGet]
@@ -34,8 +33,9 @@ namespace linearAPI.Controllers
         public IActionResult Get(string id)
         {
             // TODO: Check that user is handler for order
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
 
             var data = spotBookingRepo.Read(id);
             if (data == null) return StatusCode(404);
@@ -44,13 +44,34 @@ namespace linearAPI.Controllers
         }
 
         [HttpGet]
+        [Route("own")]
+        [Produces("application/json")]
+        public IActionResult GetByUSerId()
+        {
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
+
+            var data = spotBookingRepo.ReadAll();
+            if (data == null) return StatusCode(404);
+
+            if (user.IsAdmin) return Ok(data);
+
+            var filteredData = data.Where((it) => it.AgencyId == user.AgencyId);
+
+            return Ok(filteredData);
+        }
+
+        [HttpGet]
         [Route("all")]
         [Produces("application/json")]
         public IActionResult Get()
         {
-            // TODO: Check that user is handler for order
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
+
+            if (!user.IsAdmin) return StatusCode(403);
 
             var data = spotBookingRepo.ReadAll();
             if (data == null) return StatusCode(404);

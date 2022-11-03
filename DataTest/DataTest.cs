@@ -111,5 +111,6 @@ namespace LinearTest
                 Assert.AreEqual(order.OrderTypeName, OrderTypeName.specific.ToString());
             }
         }
+        // TODO: Test agency reference
     }
 }

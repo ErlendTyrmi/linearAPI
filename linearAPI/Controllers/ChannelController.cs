@@ -19,11 +19,13 @@ namespace linearAPI.Controllers
     {
         private readonly ILogger<ChannelController> logger;
         private readonly LinearAccess<LinearChannel> ChannelRepo;
+        private readonly ISessionService sessionService;
 
-        public ChannelController(ILogger<ChannelController> logger, ILinearRepo repo)
+        public ChannelController(ILogger<ChannelController> logger, ILinearRepo repo, ISessionService sessionService)
         {
             this.logger = logger;
             this.ChannelRepo = repo.Channel;
+            this.sessionService = sessionService;
         }
 
         [HttpGet]
@@ -31,6 +33,10 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
+            if (user == null) return StatusCode(401);
+
             var data = ChannelRepo.ReadAll();
             if (data == null) return StatusCode(404);
 

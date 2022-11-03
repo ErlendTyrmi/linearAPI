@@ -27,10 +27,8 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult getSessionUser()
         {
-            string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            if (userName == null) return StatusCode(401);
-
-            var user = sessionService.getUser(userName);
+            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            var user = sessionService.AssertSignedIn(userId);
             if (user == null) return StatusCode(401);
 
             return Ok(user);
@@ -44,15 +42,17 @@ namespace linearAPI.Controllers
             if (LinearAuthentication.AuthenticateCredentials(data))
             {
                 // Find user
-                var user = sessionService.getUser(data.username);
+                var user = sessionService.getUserFromUserName(data.username);
                 if (user == null)
                 {
                     logger.LogError("Failed login: No such user: " + data.username);
                     return StatusCode(401);
                 }
 
+                var sessionId = sessionService.SignIn(user);
+
                 var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, user.UserName, ClaimValueTypes.String)};
+                new Claim(ClaimTypes.Sid, sessionId, ClaimValueTypes.String)};
                 var userIdentity = new ClaimsIdentity(claims, "sessionIdentity");
 
                 HttpContext.SignInAsync(
@@ -72,6 +72,9 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Logout()
         {
+            string? id = HttpContext.User.Claims.FirstOrDefault()?.Value;
+            if (id != null) sessionService.SignOut(id);
+
             try
             {
                 HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
