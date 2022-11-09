@@ -1,6 +1,6 @@
-﻿using linearAPI.Entities;
+﻿using LinearEntities.Entities;
 
-namespace linearAPI.Services
+namespace LinearAPI.Services
 {
     public interface ISessionService
     {

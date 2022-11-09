@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repo\Database\Data\Generated\" />
+    <ProjectReference Include="..\Entities\LinearEntities.csproj" />
+    <ProjectReference Include="..\LinearMockDatabase\LinearMockDatabase.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

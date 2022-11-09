@@ -1,6 +1,6 @@
-using linearAPI.Entities;
-using linearAPI.Repo.Database;
-using static linearAPI.Util.Enums;
+using LinearEntities.Entities;
+using LinearMockDatabase.Repo.Database;
+using static Entities.Util.Enums;
 
 namespace LinearTest
 {
@@ -19,7 +19,7 @@ namespace LinearTest
         private readonly LinearAccess<LinearSpot> spotRepo = new(dataDirectoryName);
         private readonly LinearAccess<LinearAgency> agencyRepo = new(dataDirectoryName);
         private readonly LinearAccess<LinearUser> userRepo = new(dataDirectoryName);
-        private readonly LinearAccess<LinearAdvertiser> advertiserRepo = new(dataDirectoryName);
+        private readonly LinearAccess<Advertiser> advertiserRepo = new(dataDirectoryName);
         private readonly LinearAccess<LinearOrder> orderRepo = new(dataDirectoryName);
         private readonly LinearAccess<LinearSpotBooking> spotBookingRepo = new(dataDirectoryName);
 
@@ -55,7 +55,7 @@ namespace LinearTest
         [TestMethod]
         public void TestAdvertisers()
         {
-            IList<LinearAdvertiser> advertisers = advertiserRepo.ReadAll();
+            IList<Advertiser> advertisers = advertiserRepo.ReadAll();
 
             foreach (var advertiser in advertisers)
             {

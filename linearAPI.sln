@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "linearAPI", "linearAPI\linearAPI.csproj", "{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearAPI", "linearAPI\LinearAPI.csproj", "{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearTest", "DataTest\LinearTest.csproj", "{F5964FD2-4752-49AF-84D7-BD59C081D434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearMockDatabase", "LinearMockDatabase\LinearMockDatabase.csproj", "{306D820D-8558-47CB-A927-C7DE02E783BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearEntities", "Entities\LinearEntities.csproj", "{70F18B54-44BE-4E88-A510-949BEF0BB33D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearUtils", "LinearUtils\LinearUtils.csproj", "{E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{F5964FD2-4752-49AF-84D7-BD59C081D434}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5964FD2-4752-49AF-84D7-BD59C081D434}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5964FD2-4752-49AF-84D7-BD59C081D434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{306D820D-8558-47CB-A927-C7DE02E783BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{306D820D-8558-47CB-A927-C7DE02E783BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{306D820D-8558-47CB-A927-C7DE02E783BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{306D820D-8558-47CB-A927-C7DE02E783BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70F18B54-44BE-4E88-A510-949BEF0BB33D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F18B54-44BE-4E88-A510-949BEF0BB33D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70F18B54-44BE-4E88-A510-949BEF0BB33D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70F18B54-44BE-4E88-A510-949BEF0BB33D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

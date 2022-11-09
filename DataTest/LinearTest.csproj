@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\linearAPI\linearAPI.csproj" />
+    <ProjectReference Include="..\linearAPI\LinearAPI.csproj" />
   </ItemGroup>
 
 </Project>

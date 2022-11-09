@@ -7,4 +7,25 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Database\Data\Text\CampaignWords.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Database\Data\Text\CampaignWords.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\LinearEntities.csproj" />
+    <ProjectReference Include="..\LinearUtils\LinearUtils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Database\Data\Generated\" />
+  </ItemGroup>
+
 </Project>

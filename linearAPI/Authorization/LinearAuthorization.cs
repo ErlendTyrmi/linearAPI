@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace linearAPI.Authorization
+namespace Entities.Authorization
 {
     public static class LinearAuthentication
     {

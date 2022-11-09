@@ -1,7 +1,7 @@
-﻿using linearAPI.Entities;
-using linearAPI.Repo.Database;
+﻿using LinearEntities.Entities;
+using LinearMockDatabase.Repo.Database;
 
-namespace linearAPI.Services
+namespace LinearAPI.Services
 {
     public class SessionService : ISessionService
     {
@@ -61,7 +61,7 @@ namespace linearAPI.Services
         private bool IsExpired(LinearSession session)
         {
             DateTime expiration = DateTime.Now - timeout;
-            return (session.ModifiedTime.CompareTo(expiration) < 0);
+            return session.ModifiedTime.CompareTo(expiration) < 0;
         }
 
         private void RemoveExpiredSessions()
@@ -77,7 +77,7 @@ namespace linearAPI.Services
                     expiredSessionIds.Add(session.Id);
                 }
             }
-            sessionRepo.DeleteSeveral(expiredSessionIds);
+            sessionRepo.DeleteList(expiredSessionIds);
         }
 
     }
