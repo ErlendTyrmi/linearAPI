@@ -1,6 +1,7 @@
 using LinearEntities.Entities;
 using LinearMockDatabase.Repo.Database;
-using static Entities.Util.Enums;
+using static LinearUtils.Util.Enums;
+
 
 namespace LinearTest
 {
