@@ -1,8 +1,8 @@
-using linearAPI.Entities;
-using linearAPI.Entities.BaseEntity;
-using linearAPI.Repo;
-using linearAPI.Repo.Database;
-using linearAPI.Services;
+
+using LinearAPI.Services;
+using LinearEntities.Entities;
+using LinearMockDatabase;
+using LinearMockDatabase.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ using System.Net;
 using System.Security.Claims;
 
 
-namespace linearAPI.Controllers
+namespace Entities.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -34,13 +34,12 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult GetById(string id)
         {
-            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            var user = sessionService.AssertSignedIn(userId);
+           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
             var data = OrderRepo.Read(id);
 
-            if (data == null) return StatusCode(404);
+            if (data == null) return StatusCode(404); // No content is not an error
 
             if (user.IsAdmin) return Ok(data);
 
@@ -54,12 +53,13 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult GetByUserId()
         {
-            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            var user = sessionService.AssertSignedIn(userId);
-            if (user == null) return StatusCode(401);
+           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
+           if (user == null) return StatusCode(401);
 
             var data = OrderRepo.ReadAll();
-            if (data == null) return StatusCode(404);
+            if (data == null) return StatusCode(404); 
+             if (data.Count < 1) return StatusCode(204); // Not found
+
 
             var userData = data.Where((it) => it.HandlerId == user.Id);
 

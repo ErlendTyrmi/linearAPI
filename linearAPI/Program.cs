@@ -1,13 +1,13 @@
-using linearAPI.Entities;
-using linearAPI.Repo;
-using linearAPI.Repo.Database.Generator;
-using linearAPI.Services;
+using LinearAPI.Services;
+using LinearMockDatabase;
+using LinearMockDatabase.Database;
+using LinearMockDatabase.Repo;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var corsSettings = "_allowSpecificOriginsDev";
-var cookieTimeout = new TimeSpan(0, 120, 0);
+var cookieLifeTime = new TimeSpan(0, 120, 0);
 
 DataGenerator.Generate();
 
@@ -36,7 +36,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.Cookie.Name = "session_cookie";
         options.SlidingExpiration = true;
-        options.ExpireTimeSpan = cookieTimeout;
+        options.ExpireTimeSpan = cookieLifeTime;
         options.Events.OnRedirectToLogin = (context) =>
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -51,7 +51,7 @@ var linearRepo = new LinearRepo("generated/");
 builder.Services.AddSingleton(typeof(ILinearRepo), linearRepo);
 builder.Services.AddSingleton(
     typeof(ISessionService),
-    new SessionService(linearRepo.User, linearRepo.Session, new TimeSpan(0, 0, 30))
+    new SessionService(linearRepo.User, linearRepo.Session, new TimeSpan(0, 60, 0)) // cookieLifeTime
     );
 
 var app = builder.Build();

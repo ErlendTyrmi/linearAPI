@@ -1,13 +1,13 @@
-using linearAPI.Entities;
-using linearAPI.Entities.BaseEntity;
-using linearAPI.Repo;
-using linearAPI.Repo.Database;
-using linearAPI.Services;
+
+using LinearAPI.Services;
+using LinearEntities.Entities;
+using LinearMockDatabase;
+using LinearMockDatabase.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace linearAPI.Controllers
+namespace Entities.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -33,8 +33,8 @@ namespace linearAPI.Controllers
         public IActionResult Get(string id)
         {
             // TODO: Check that user is handler for order
-            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            var user = sessionService.AssertSignedIn(userId);
+           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
+
             if (user == null) return StatusCode(401);
 
             var data = spotBookingRepo.Read(id);
@@ -48,12 +48,13 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult GetByUSerId()
         {
-            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            var user = sessionService.AssertSignedIn(userId);
+           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
             var data = spotBookingRepo.ReadAll();
             if (data == null) return StatusCode(404);
+
+            if (data.Count < 1) return StatusCode(204); // Not found
 
             if (user.IsAdmin) return Ok(data);
 
@@ -67,14 +68,14 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
-            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            var user = sessionService.AssertSignedIn(userId);
+           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
             if (!user.IsAdmin) return StatusCode(403);
 
             var data = spotBookingRepo.ReadAll();
-            if (data == null) return StatusCode(404);
+            if (data == null) return StatusCode(404); 
+             if (data.Count < 1) return StatusCode(204); // Not found
 
             return Ok(data);
         }

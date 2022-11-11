@@ -1,13 +1,11 @@
-using linearAPI.Authorization;
-using linearAPI.Entities;
-using linearAPI.Repo;
-using linearAPI.Services;
+using Entities.Authorization;
+using LinearAPI.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace linearAPI.Controllers
+namespace Entities.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -27,10 +25,8 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult getSessionUser()
         {
-            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            var user = sessionService.AssertSignedIn(userId);
-            if (user == null) return StatusCode(401);
-
+           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
+           
             return Ok(user);
         }
 
@@ -42,10 +38,10 @@ namespace linearAPI.Controllers
             if (LinearAuthentication.AuthenticateCredentials(data))
             {
                 // Find user
-                var user = sessionService.getUserFromUserName(data.username);
+                var user = sessionService.getUserFromUserName(data.Username);
                 if (user == null)
                 {
-                    logger.LogError("Failed login: No such user: " + data.username);
+                    logger.LogError("Failed login: No such user: " + data.Username);
                     return StatusCode(401);
                 }
 

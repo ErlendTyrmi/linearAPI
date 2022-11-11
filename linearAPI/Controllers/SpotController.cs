@@ -1,16 +1,13 @@
-using linearAPI.Entities;
-using linearAPI.Entities.BaseEntity;
-using linearAPI.Repo;
-using linearAPI.Repo.Database;
-using linearAPI.Services;
+
+using LinearAPI.Services;
+using LinearEntities.Entities;
+using LinearMockDatabase;
+using LinearMockDatabase.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Security.Claims;
 
-
-namespace linearAPI.Controllers
+namespace Entities.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -33,8 +30,7 @@ namespace linearAPI.Controllers
         [Produces("application/json")]
         public IActionResult Get()
         {
-            string? userId = HttpContext.User.Claims.FirstOrDefault()?.Value;
-            var user = sessionService.AssertSignedIn(userId);
+           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
             var data = SpotRepo.ReadAll();

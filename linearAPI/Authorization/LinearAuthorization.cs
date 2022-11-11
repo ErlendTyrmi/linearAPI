@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace linearAPI.Authorization
+namespace Entities.Authorization
 {
     public static class LinearAuthentication
     {
@@ -13,11 +13,11 @@ namespace linearAPI.Authorization
 
             if (credentials == null) return false;
 
-            if (credentials.username == null) return false;
+            if (credentials.Username == null) return false;
 
-            if (credentials.username.Length < 1) return false;
+            if (credentials.Username.Length < 1) return false;
 
-            if (credentials.username == credentials.password) return true;
+            if (credentials.Username == credentials.Password) return true;
 
             return false;
         }
