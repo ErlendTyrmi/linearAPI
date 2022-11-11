@@ -38,10 +38,10 @@ namespace Entities.Controllers
             if (LinearAuthentication.AuthenticateCredentials(data))
             {
                 // Find user
-                var user = sessionService.getUserFromUserName(data.username);
+                var user = sessionService.getUserFromUserName(data.Username);
                 if (user == null)
                 {
-                    logger.LogError("Failed login: No such user: " + data.username);
+                    logger.LogError("Failed login: No such user: " + data.Username);
                     return StatusCode(401);
                 }
 

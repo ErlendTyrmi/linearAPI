@@ -102,20 +102,24 @@ namespace Entities.Controllers
         [HttpPost]
         [Route("favorites")]
         [Produces("application/json")]
-        public IActionResult PostFavoritesByAgency([FromBody] IList<Advertiser> data)
+        public IActionResult PostFavoritesByUser([FromBody] IList<Advertiser> data)
         {
             var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
             var ids = data.Select(d => d.Id).ToList();
-            if (ids == null) return StatusCode(400); // But may be empty to clear list :-)
+            if (ids == null) return StatusCode(500); // But may be empty to clear list :-)
 
+            var validIds = advertiserRepo.ReadAll().Select((it)=> it.Id);
+            foreach (var id in ids) {
+                if (!validIds.Contains(id)) return StatusCode(400);
+            }
 
             var newFavoritesObject = new AdvertiserFavorites(user.Id, ids.ToArray());
 
             favoriteAdvertiserRepo.Create(newFavoritesObject);
 
-            return Ok(newFavoritesObject);
+            return Ok(data);
         }
     }
 }

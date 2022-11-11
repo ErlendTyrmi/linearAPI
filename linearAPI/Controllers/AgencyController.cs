@@ -30,12 +30,12 @@ namespace Entities.Controllers
         [HttpGet]
         [Route("")]
         [Produces("application/json")]
-        public IActionResult Get(string id)
+        public IActionResult Get()
         {
            var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
-            var data = agencyRepo.Read(id);
+            var data = agencyRepo.Read(user.AgencyId);
             if (data == null) return StatusCode(404);
 
             return Ok(data);
@@ -44,7 +44,7 @@ namespace Entities.Controllers
         [HttpGet]
         [Route("all")]
         [Produces("application/json")]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
            var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);

@@ -8,7 +8,11 @@ namespace Entities.Authorization
 {
     public class LinearCredentials
     {
-        public string password { get; set; }
-        public string username { get; set; }
+        public LinearCredentials(string password, string username){
+            this.Password = password;
+            this.Username = username;
+        }
+        public string Password { get; set; }
+        public string Username { get; set; }
     }
 }
