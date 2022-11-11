@@ -172,13 +172,16 @@ namespace LinearMockDatabase.Database
                 }
                 if (agencyUsers.Count == 0) throw new Exception("Could not generate mock data: Found no users for agency " + agency.Name + " id: " + agency.Id);
 
-                var orderAmount = random.Next(1, 40);
+                var numberOfOrders = random.Next(13, 28);
 
-
-                for (int i = 0; i < orderAmount; i++)
+                for (int i = 0; i < numberOfOrders; i++)
                 {
                     var startWeek = random.Next(1, 6);
                     var specific = i % 4 == 0;
+
+                    var budgetAmount = random.Next(200, 700) * 100;
+                    var budgetSpending = (budgetAmount / 2) + random.Next(10, ( budgetAmount)); // Some orders are overbought
+
 
                     var order = new LinearOrder(
                         id: Guid.NewGuid().ToString(),
@@ -201,8 +204,8 @@ namespace LinearMockDatabase.Database
                         viewsExpectedMille: random.Next(1, 100),
                         viewsDeliveredMille: 0,
                         orderStatus: OrderStatus.created.ToString(),
-                        orderBudget: random.Next(200, 700) * 100,
-                        orderTotal: 0
+                        orderBudget: budgetAmount,
+                        orderTotal: budgetSpending
                     );
 
                     orders.Add(order);
