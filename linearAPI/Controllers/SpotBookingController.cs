@@ -1,7 +1,7 @@
 
+using Common.Interfaces;
 using LinearAPI.Services;
 using LinearEntities.Entities;
-using LinearMockDatabase;
 using LinearMockDatabase.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -15,8 +15,8 @@ namespace Entities.Controllers
     public class SpotBookingController : ControllerBase
     {
         private readonly ILogger<SpotBookingController> logger;
-        private readonly LinearAccess<LinearSpotBooking> spotBookingRepo;
-        private readonly LinearAccess<LinearOrder> orderRepo;
+        private readonly ILinearAccess<LinearSpotBooking> spotBookingRepo;
+        private readonly ILinearAccess<LinearOrder> orderRepo;
         private readonly ISessionService sessionService;
 
         public SpotBookingController(ILogger<SpotBookingController> logger, ISessionService sessionService, ILinearRepo repo)

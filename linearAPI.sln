@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearAPI", "linearAPI\Line
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearTest", "DataTest\LinearTest.csproj", "{F5964FD2-4752-49AF-84D7-BD59C081D434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearMockDatabase", "LinearMockDatabase\LinearMockDatabase.csproj", "{306D820D-8558-47CB-A927-C7DE02E783BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearMockDatabase", "LinearMockDatabase\LinearMockDatabase.csproj", "{306D820D-8558-47CB-A927-C7DE02E783BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearEntities", "Entities\LinearEntities.csproj", "{70F18B54-44BE-4E88-A510-949BEF0BB33D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Entities\Common.csproj", "{70F18B54-44BE-4E88-A510-949BEF0BB33D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearUtils", "LinearUtils\LinearUtils.csproj", "{E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearUtils", "LinearUtils\LinearUtils.csproj", "{E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 
+using Common.Interfaces;
 using LinearAPI.Services;
 using LinearEntities.Entities;
-using LinearMockDatabase;
 using LinearMockDatabase.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +15,7 @@ namespace Entities.Controllers
     public class SpotController : ControllerBase
     {
         private readonly ILogger<SpotController> _logger;
-        private readonly LinearAccess<LinearSpot> SpotRepo;
+        private readonly ILinearAccess<LinearSpot> SpotRepo;
         private readonly ISessionService sessionService;
 
         public SpotController(ILogger<SpotController> logger, ILinearRepo repo, ISessionService sessionService)

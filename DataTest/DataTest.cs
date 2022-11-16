@@ -99,10 +99,11 @@ namespace LinearTest
 
             foreach (var booking in bookings) {
                 // Check spot exists
-                Assert.IsNotNull(spotRepo.Read(booking.SpotId));
+                var spot = spotRepo.Read(booking.SpotId);
+                Assert.IsNotNull(spot);
 
                 // Check spot channel exists
-                var channelId = spotRepo.Read(booking.SpotId)?.ChannelId;
+                var channelId = spot.ChannelId;
                 Assert.IsNotNull(channelId);
                 Assert.IsNotNull(channelRepo.Read(channelId));
 
@@ -110,8 +111,11 @@ namespace LinearTest
                 var order = orderRepo.Read(booking.OrderId);
                 Assert.IsNotNull(order);
                 Assert.AreEqual(order.OrderTypeName, OrderTypeName.specific.ToString());
+
+                // Check dates are within order dates
+                Assert.IsTrue(order.StartDate.CompareTo(spot.StartDateTime) < 0);
+                Assert.IsTrue(order.EndDate.CompareTo(spot.StartDateTime) > 0);
             }
         }
-        // TODO: Test agency reference
     }
 }

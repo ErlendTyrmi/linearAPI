@@ -15,7 +15,7 @@ namespace LinearEntities.Entities
         public string AdvertiserName { get; set; }
 
         public LinearOrder(string id, DateTime modifiedTime, string ordernumber, string advertiserId, string advertiserName,
-            string advertiserProductName, string handlerId, int startWeek, int endWeek, string orderTypeName, string channelId,
+            string advertiserProductName, string handlerId, DateTime startDate, DateTime endDate, string orderTypeName, string channelId,
             string salesProductId, string salesProductName, string? salesGroupNumber, int durationSeconds, double costPerMille, int viewsExpectedMille,
             int viewsDeliveredMille, string orderStatus, double orderBudget, double orderTotal)
         {
@@ -26,8 +26,8 @@ namespace LinearEntities.Entities
             AdvertiserName = advertiserName;
             AdvertiserProductName = advertiserProductName;
             HandlerId = handlerId;
-            StartWeek = startWeek;
-            EndWeek = endWeek;
+            StartDate = startDate;
+            EndDate = endDate;
             OrderTypeName = orderTypeName;
             ChannelId = channelId;
             SalesProductId = salesProductId;
@@ -46,8 +46,8 @@ namespace LinearEntities.Entities
 
         public string HandlerId { get; set; }
 
-        public int StartWeek { get; set; }
-        public int EndWeek { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public string OrderTypeName { get; set; } // Exposure or Specific - ENUM
 

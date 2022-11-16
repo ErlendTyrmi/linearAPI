@@ -1,15 +1,16 @@
-﻿using LinearEntities.Entities;
+﻿using Common.Interfaces;
+using LinearEntities.Entities;
 using LinearMockDatabase.Repo.Database;
 
 namespace LinearAPI.Services
 {
     public class SessionService : ISessionService
     {
-        private LinearAccess<LinearUser> userRepo;
-        private LinearAccess<LinearSession> sessionRepo;
+        private ILinearAccess<LinearUser> userRepo;
+        private ILinearAccess<LinearSession> sessionRepo;
         private TimeSpan timeout;
 
-        public SessionService(LinearAccess<LinearUser> userRepo, LinearAccess<LinearSession> sessionRepo, TimeSpan timeout)
+        public SessionService(ILinearAccess<LinearUser> userRepo, ILinearAccess<LinearSession> sessionRepo, TimeSpan timeout)
         {
             this.userRepo = userRepo ?? throw new ArgumentNullException(nameof(userRepo));
             this.sessionRepo = sessionRepo ?? throw new ArgumentNullException(nameof(sessionRepo));

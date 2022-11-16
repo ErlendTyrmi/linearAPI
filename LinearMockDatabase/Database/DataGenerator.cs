@@ -22,8 +22,8 @@ namespace LinearMockDatabase.Database
     public class DataGenerator
     {
         private readonly static string dataDirectoryName = "Generated/";
-        private readonly static  List<string> CampaignWords = GetCampaignWords();
-        private readonly static  Random random = new();
+        private readonly static List<string> CampaignWords = GetCampaignWords();
+        private readonly static Random random = new();
 
         public static void Generate()
         {
@@ -176,11 +176,16 @@ namespace LinearMockDatabase.Database
 
                 for (int i = 0; i < numberOfOrders; i++)
                 {
-                    var startWeek = random.Next(1, 6);
+                    var startDate = new DateTime(2023, 1, random.Next(1, 25), 00, 00, 00, DateTimeKind.Local);
                     var specific = i % 4 == 0;
 
                     var budgetAmount = random.Next(200, 700) * 100;
-                    var budgetSpending = (budgetAmount / 2) + random.Next(10, ( budgetAmount)); // Some orders are overbought
+                    var budgetSpending = (budgetAmount / 2) + random.Next(10, (budgetAmount / 2));
+
+                    if (specific && i / 12 == 0)
+                    {
+                        budgetSpending += budgetAmount + random.Next(1, (budgetAmount / 4));
+                    }
 
 
                     var order = new LinearOrder(
@@ -191,8 +196,8 @@ namespace LinearMockDatabase.Database
                         advertiserName: advertiser.Name,
                         advertiserProductName: GenerateProductName(),
                         handlerId: agencyUsers.ElementAt(random.Next(agencyUsers.Count)).Id,
-                        startWeek: startWeek,
-                        endWeek: startWeek + random.Next(1, 4),
+                        startDate: startDate,
+                        endDate: startDate.AddDays(random.Next(1, 8)),
 
                         orderTypeName: specific ? OrderTypeName.specific.ToString() : OrderTypeName.exposure.ToString(),
                         channelId: channelList.ElementAt(random.Next(channelList.Count)).Id,
@@ -229,8 +234,11 @@ namespace LinearMockDatabase.Database
             {
                 if (order.OrderTypeName.Equals(OrderTypeName.specific.ToString()))
                 {
-                    var spot = GetAnyFreeSpot(allSpots);
+                    var spot = GetAnyFreeSpotInOrderPeriod(allSpots, order);
                     if (spot == null) break;
+
+                    if (spot.StartDateTime.CompareTo(order.StartDate) < 0) throw new Exception("spot before order start");
+                    if (spot.StartDateTime.CompareTo(order.EndDate) > 0) throw new Exception("spot after order start");
 
                     spot.BookedSeconds += order.DurationSeconds;
                     updatedSpots.Add(spot);
@@ -254,11 +262,12 @@ namespace LinearMockDatabase.Database
 
         #region Helper Methods
 
-        private static LinearSpot? GetAnyFreeSpot(IList<LinearSpot> spots)
+        private static LinearSpot? GetAnyFreeSpotInOrderPeriod(IList<LinearSpot> spots, LinearOrder order)
         {
             spots.Shuffle();
             foreach (var spot in spots)
             {
+                if (spot.StartDateTime.CompareTo(order.StartDate) < 0 || spot.StartDateTime.CompareTo(order.EndDate) > 0) continue;
                 if (spot.Duration - spot.BookedSeconds >= 30) return spot;
             }
             return null;

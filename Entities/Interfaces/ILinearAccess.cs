@@ -1,4 +1,4 @@
-﻿namespace LinearMockDatabase.Repo.Database
+﻿namespace Common.Interfaces
 {
     public interface ILinearAccess<TType>
     {

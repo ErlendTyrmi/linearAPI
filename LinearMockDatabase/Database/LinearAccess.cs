@@ -1,4 +1,5 @@
-﻿using LinearEntities.Entities.BaseEntity;
+﻿using Common.Interfaces;
+using LinearEntities.Entities.BaseEntity;
 using System.Text.Json;
 
 namespace LinearMockDatabase.Repo.Database

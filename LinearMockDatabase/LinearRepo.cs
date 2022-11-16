@@ -1,45 +1,46 @@
-﻿using LinearEntities.Entities;
+﻿using Common.Interfaces;
+using LinearEntities.Entities;
 using LinearMockDatabase.Repo.Database;
 namespace LinearMockDatabase
 {
     public class LinearRepo : ILinearRepo
     {
-        private LinearAccess<Advertiser> advertiser;
-        private LinearAccess<AdvertiserFavorites> favoriteAdvertiser;
-        private LinearAccess<LinearAgency> agency;
-        private LinearAccess<LinearChannel> channel;
-        private LinearAccess<LinearOrder> order;
-        private LinearAccess<LinearSalesProduct> salesProduct;
-        private LinearAccess<LinearSpot> spot;
-        private LinearAccess<LinearSpotBooking> spotBooking;
-        private LinearAccess<LinearUser> user;
-        private LinearAccess<LinearSession> session;
+        private readonly ILinearAccess<Advertiser> advertiser;
+        private readonly ILinearAccess<AdvertiserFavorites> favoriteAdvertiser;
+        private readonly ILinearAccess<LinearAgency> agency;
+        private readonly ILinearAccess<LinearChannel> channel;
+        private readonly ILinearAccess<LinearOrder> order;
+        private readonly ILinearAccess<LinearSalesProduct> salesProduct;
+        private readonly ILinearAccess<LinearSpot> spot;
+        private readonly ILinearAccess<LinearSpotBooking> spotBooking;
+        private readonly ILinearAccess<LinearUser> user;
+        private readonly ILinearAccess<LinearSession> session;
 
         public LinearRepo(string directoryName)
         {
-            advertiser = new(directoryName);
-            favoriteAdvertiser = new(directoryName);
-            agency = new(directoryName);
-            channel = new(directoryName);
-            order = new(directoryName);
-            salesProduct = new(directoryName);
-            spot = new(directoryName);
-            spotBooking = new(directoryName);
-            user = new(directoryName);
-            session = new(directoryName);
+            advertiser = new LinearAccess<Advertiser>(directoryName);
+            favoriteAdvertiser = new LinearAccess<AdvertiserFavorites>(directoryName);
+            agency = new LinearAccess<LinearAgency>(directoryName);
+            channel = new LinearAccess<LinearChannel>(directoryName);
+            order = new LinearAccess<LinearOrder>(directoryName);
+            salesProduct = new LinearAccess<LinearSalesProduct>(directoryName);
+            spot = new LinearAccess<LinearSpot>(directoryName);
+            spotBooking = new LinearAccess<LinearSpotBooking>(directoryName);
+            user = new LinearAccess<LinearUser>(directoryName);
+            session = new LinearAccess<LinearSession>(directoryName);
         }
 
         // Getters
 
-        public LinearAccess<Advertiser> Advertiser { get => advertiser; }
-        public LinearAccess<AdvertiserFavorites> FavoriteAdvertiser {get=>favoriteAdvertiser;}
-        public LinearAccess<LinearAgency> Agency { get => agency; }
-        public LinearAccess<LinearChannel> Channel { get => channel; }
-        public LinearAccess<LinearOrder> Order { get => order; }
-        public LinearAccess<LinearSalesProduct> SalesProduct { get => salesProduct; }
-        public LinearAccess<LinearSpot> Spot { get => spot; }
-        public LinearAccess<LinearSpotBooking> SpotBooking { get => spotBooking; }
-        public LinearAccess<LinearUser> User { get => user; }
-        public LinearAccess<LinearSession> Session { get => session; }
+        public ILinearAccess<Advertiser> Advertiser { get => advertiser; }
+        public ILinearAccess<AdvertiserFavorites> FavoriteAdvertiser {get=>favoriteAdvertiser;}
+        public ILinearAccess<LinearAgency> Agency { get => agency; }
+        public ILinearAccess<LinearChannel> Channel { get => channel; }
+        public ILinearAccess<LinearOrder> Order { get => order; }
+        public ILinearAccess<LinearSalesProduct> SalesProduct { get => salesProduct; }
+        public ILinearAccess<LinearSpot> Spot { get => spot; }
+        public ILinearAccess<LinearSpotBooking> SpotBooking { get => spotBooking; }
+        public ILinearAccess<LinearUser> User { get => user; }
+        public ILinearAccess<LinearSession> Session { get => session; }
     }
 }

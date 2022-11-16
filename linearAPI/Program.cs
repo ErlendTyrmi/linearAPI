@@ -1,3 +1,4 @@
+using Common.Interfaces;
 using LinearAPI.Services;
 using LinearMockDatabase;
 using LinearMockDatabase.Database;
@@ -47,7 +48,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
     });
 
-var linearRepo = new LinearRepo("generated/");
+ILinearRepo linearRepo = new LinearRepo("generated/");
 builder.Services.AddSingleton(typeof(ILinearRepo), linearRepo);
 builder.Services.AddSingleton(
     typeof(ISessionService),

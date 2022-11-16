@@ -25,7 +25,9 @@ namespace Entities.Controllers
         [Produces("application/json")]
         public IActionResult getSessionUser()
         {
-           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
+            var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
+
+            if (user == null) return StatusCode(500);
            
             return Ok(user);
         }

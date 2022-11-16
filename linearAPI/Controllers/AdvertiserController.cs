@@ -1,6 +1,6 @@
+using Common.Interfaces;
 using LinearAPI.Services;
 using LinearEntities.Entities;
-using LinearMockDatabase;
 using LinearMockDatabase.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -17,8 +17,8 @@ namespace Entities.Controllers
     public class AdvertiserController : ControllerBase
     {
         private readonly ILogger<AdvertiserController> logger;
-        private readonly LinearAccess<Advertiser> advertiserRepo;
-        private readonly LinearAccess<AdvertiserFavorites> favoriteAdvertiserRepo;
+        private readonly ILinearAccess<Advertiser> advertiserRepo;
+        private readonly ILinearAccess<AdvertiserFavorites> favoriteAdvertiserRepo;
         private readonly ISessionService sessionService;
 
         public AdvertiserController(ILogger<AdvertiserController> logger, ISessionService sessionService, ILinearRepo repo)
@@ -96,7 +96,9 @@ namespace Entities.Controllers
             if (advertisers == null) return StatusCode(500);
             if (advertisers.Count < 1) return StatusCode(204);
 
-            return Ok(advertisers);
+            var sortedAdvertisers = advertisers.OrderBy(adv => adv.Name);
+
+            return Ok(sortedAdvertisers);
         }
 
         [HttpPost]

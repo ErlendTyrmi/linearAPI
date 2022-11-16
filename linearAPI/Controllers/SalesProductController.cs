@@ -1,7 +1,7 @@
 
+using Common.Interfaces;
 using LinearAPI.Services;
 using LinearEntities.Entities;
-using LinearMockDatabase;
 using LinearMockDatabase.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +18,7 @@ namespace Entities.Controllers
     public class SalesProductController : ControllerBase
     {
         private readonly ILogger<SalesProductController> logger;
-        private readonly LinearAccess<LinearSalesProduct> salesProductRepo;
+        private readonly ILinearAccess<LinearSalesProduct> salesProductRepo;
         private readonly ISessionService sessionService;
 
         public SalesProductController(ILogger<SalesProductController> logger, ILinearRepo repo, ISessionService sessionService)

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Entities\LinearEntities.csproj" />
+    <ProjectReference Include="..\Entities\Common.csproj" />
     <ProjectReference Include="..\LinearUtils\LinearUtils.csproj" />
   </ItemGroup>
 

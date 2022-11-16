@@ -1,7 +1,7 @@
 
+using Common.Interfaces;
 using LinearAPI.Services;
 using LinearEntities.Entities;
-using LinearMockDatabase;
 using LinearMockDatabase.Repo.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +18,7 @@ namespace Entities.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly ILogger<ChannelController> logger;
-        private readonly LinearAccess<LinearChannel> ChannelRepo;
+        private readonly ILinearAccess<LinearChannel> ChannelRepo;
         private readonly ISessionService sessionService;
 
         public ChannelController(ILogger<ChannelController> logger, ILinearRepo repo, ISessionService sessionService)
