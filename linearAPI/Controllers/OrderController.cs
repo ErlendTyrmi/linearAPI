@@ -61,37 +61,11 @@ namespace Entities.Controllers
             if (data.Count < 1) return StatusCode(204); // Not found
 
 
-            var orders = data.Where((it) => it.HandlerId == user.Id);
+            var orders = data.Where((it) => it.HandlerId == user.Id || user.IsAdmin == true);
 
             var sortedOrders = orders.OrderBy(adv => adv.StartDate);
 
             return Ok(sortedOrders);
         }
-
-        //[HttpGet]
-        //[Route("all")]
-        //[Produces("application/json")]
-        //public IActionResult Get()
-        //{
-
-        //    string? userName = HttpContext.User.Claims.FirstOrDefault()?.Value;
-        //    if (userName == null) return StatusCode(401);
-
-        //    LinearUser? handler = sessionService.getUser(userName);
-        //    if (handler == null)
-        //    {
-        //        _logger.LogError($"Expected valid user with username, but {userName} not found by {nameof(SessionService)}.");
-        //        return StatusCode(500);
-        //    }
-
-        //    if (!handler.IsAdmin) return StatusCode(403);
-
-        //    var data = dataRepo.ReadAll();
-        //    if (data == null) return StatusCode(404);
-
-        //    if (handler.IsAdmin) return Ok(data);
-
-        //    return Ok(data.Take(100));
-        //}
     }
 }
