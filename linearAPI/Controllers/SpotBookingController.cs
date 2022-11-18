@@ -63,21 +63,21 @@ namespace Entities.Controllers
             return Ok(filteredData);
         }
 
-        [HttpGet]
-        [Route("all")]
-        [Produces("application/json")]
-        public IActionResult Get()
-        {
-           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
-            if (user == null) return StatusCode(401);
+        //[HttpGet]
+        //[Route("all")]
+        //[Produces("application/json")]
+        //public IActionResult Get()
+        //{
+        //   var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
+        //    if (user == null) return StatusCode(401);
 
-            if (!user.IsAdmin) return StatusCode(403);
+        //    if (!user.IsAdmin) return StatusCode(403);
 
-            var data = spotBookingRepo.ReadAll();
-            if (data == null) return StatusCode(404); 
-             if (data.Count < 1) return StatusCode(204); // Not found
+        //    var data = spotBookingRepo.ReadAll();
+        //    if (data == null) return StatusCode(404); 
+        //     if (data.Count < 1) return StatusCode(204); // Not found
 
-            return Ok(data);
-        }
+        //    return Ok(data);
+        //}
     }
 }
