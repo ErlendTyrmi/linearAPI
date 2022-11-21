@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace LinearEntities.Entities
 {
     [Serializable]
-    public class LinearOrder : ILinearEntity
+    public class Order : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
@@ -14,8 +14,8 @@ namespace LinearEntities.Entities
         public string AdvertiserId { get; set; }
         public string AdvertiserName { get; set; }
 
-        public LinearOrder(string id, DateTime modifiedTime, string ordernumber, string advertiserId, string advertiserName,
-            string advertiserProductName, string handlerId, DateTime startDate, DateTime endDate, string orderTypeName, string channelId,
+        public Order(string id, DateTime modifiedTime, string ordernumber, string advertiserId, string advertiserName,
+            string advertiserProductName, string handlerId, DateTime startDate, DateTime endDate, string orderTypeName, string channelId, string channelName,
             string salesProductId, string salesProductName, string? salesGroupNumber, int durationSeconds, double costPerMille, int viewsExpectedMille,
             int viewsDeliveredMille, string orderStatus, double orderBudget, double orderTotal)
         {
@@ -30,6 +30,7 @@ namespace LinearEntities.Entities
             EndDate = endDate;
             OrderTypeName = orderTypeName;
             ChannelId = channelId;
+            ChannelName = channelName;
             SalesProductId = salesProductId;
             SalesProductName = salesProductName;
             SalesGroupNumber = salesGroupNumber;
@@ -52,6 +53,7 @@ namespace LinearEntities.Entities
         public string OrderTypeName { get; set; } // Exposure or Specific - ENUM
 
         public string ChannelId { get; set; }
+        public string ChannelName { get; set; }
 
         public string SalesProductId { get; set; } // The TV Commercial that is bought
         public string SalesProductName { get; set; }

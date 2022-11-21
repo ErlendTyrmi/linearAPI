@@ -54,6 +54,10 @@ builder.Services.AddSingleton(
     typeof(ISessionService),
     new SessionService(linearRepo.User, linearRepo.Session, new TimeSpan(0, 60, 0)) // cookieLifeTime
     );
+builder.Services.AddSingleton(
+    typeof(ISpotBookingService),
+    new SpotBookingService(linearRepo.Order, linearRepo.Advertiser, linearRepo.SpotBooking, linearRepo.Spot)
+    );
 
 var app = builder.Build();
 

@@ -52,12 +52,15 @@ namespace LinearEntities.Entities
             Id = id;
             ModifiedTime = DateTime.Now;
             StartDateTime = startDateTime;
-            Duration = 180; // Always 3 minutes :-)
+            // Always 3 minutes for the linear project
+            Duration = 180; 
             BookedSeconds = bookedSeconds;
             ChannelId = channelId;
             ChannelName = channelName;
             NextProgram = nextProgram;
-            CpmPrice = $"{50 + new Random().Next(100)} DKK";
+            // The price is fixed and not calculated for the linear project.
+            // PriceTotal should be calculated CPM price * views
+            PriceTotal = 10000 * new Random().Next(1, 5); 
         }
 
         public DateTime StartDateTime { get; set; }
@@ -66,6 +69,6 @@ namespace LinearEntities.Entities
         public string ChannelId { get; set; }
         public string ChannelName { get; set; }
         public string NextProgram { get; set; }
-        public string CpmPrice { get; set; }
+        public double PriceTotal { get; set; }
     }
 }

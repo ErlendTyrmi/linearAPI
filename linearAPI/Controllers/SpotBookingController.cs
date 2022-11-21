@@ -15,16 +15,20 @@ namespace Entities.Controllers
     public class SpotBookingController : ControllerBase
     {
         private readonly ILogger<SpotBookingController> logger;
-        private readonly ILinearAccess<LinearSpotBooking> spotBookingRepo;
-        private readonly ILinearAccess<LinearOrder> orderRepo;
+        private readonly ILinearAccess<SpotBooking> spotBookingRepo;
+        private readonly ILinearAccess<Order> orderRepo;
+        private readonly ILinearAccess<Advertiser> advertiserRepo;
         private readonly ISessionService sessionService;
+        private readonly ISpotBookingService spotBookingService;
 
-        public SpotBookingController(ILogger<SpotBookingController> logger, ISessionService sessionService, ILinearRepo repo)
+        public SpotBookingController(ILogger<SpotBookingController> logger, ISessionService sessionService, ISpotBookingService spotBookingService, ILinearRepo repo)
         {
             this.logger = logger;
             this.sessionService = sessionService;
+            this.spotBookingService = spotBookingService;
             this.spotBookingRepo = repo.SpotBooking;
             this.orderRepo = repo.Order;
+            this.advertiserRepo = repo.Advertiser;
         }
 
         [HttpGet]
@@ -63,21 +67,19 @@ namespace Entities.Controllers
             return Ok(filteredData);
         }
 
-        [HttpGet]
-        [Route("all")]
+        [HttpDelete]
+        [Route("")]
         [Produces("application/json")]
-        public IActionResult Get()
+        public IActionResult delete(SpotBooking booking)
         {
-           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
+            var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
-            if (!user.IsAdmin) return StatusCode(403);
+            int status = spotBookingService.deleteBooking(booking, user);
 
-            var data = spotBookingRepo.ReadAll();
-            if (data == null) return StatusCode(404); 
-             if (data.Count < 1) return StatusCode(204); // Not found
+            if (status != 200) return StatusCode(status);
 
-            return Ok(data);
+            return Ok(booking);
         }
     }
 }
