@@ -86,14 +86,14 @@ namespace LinearMockDatabase.Database
                 new Advertiser(Guid.NewGuid().ToString(), "A.K. Bygmand A/S", agencyList.ElementAt(1).Id),
                 new Advertiser(Guid.NewGuid().ToString(), "Det Lækre Brød A/S", agencyList.ElementAt(2).Id),
                 new Advertiser(Guid.NewGuid().ToString(), "Fisker Find A/S", agencyList.ElementAt(2).Id),
-                new Advertiser(Guid.NewGuid().ToString(), "Fancy Party & udklædning A/S", agencyList.ElementAt(2).Id),
+                new Advertiser(Guid.NewGuid().ToString(), "FANCY Party & udklædning A/S", agencyList.ElementAt(2).Id),
                 new Advertiser(Guid.NewGuid().ToString(), "Restaurant Bacchus A/S", agencyList.ElementAt(3).Id),
                 new Advertiser(Guid.NewGuid().ToString(), "Milli Vanilli Babytøj A/S", agencyList.ElementAt(3).Id),
                 new Advertiser(Guid.NewGuid().ToString(), "FixDinI-Phone.net A/S", agencyList.ElementAt(3).Id),
                 new Advertiser(Guid.NewGuid().ToString(), "RollespilsCenter Avedøre A/S", agencyList.ElementAt(3).Id),
-                new Advertiser(Guid.NewGuid().ToString(), "Belzebub Online Casino A/S", agencyList.ElementAt(3).Id),
+                new Advertiser(Guid.NewGuid().ToString(), "Nero's Online Casino A/S", agencyList.ElementAt(3).Id),
                 new Advertiser(Guid.NewGuid().ToString(), "Økobryggeriet Sydhavn A/S", agencyList.ElementAt(3).Id),
-                new Advertiser(Guid.NewGuid().ToString(), "Toxic Arbejdssko A/S", agencyList.ElementAt(3).Id),
+                new Advertiser(Guid.NewGuid().ToString(), "Toxica Arbejdssko A/S", agencyList.ElementAt(3).Id),
                 new Advertiser(Guid.NewGuid().ToString(), "Dortes Rejser A/S", agencyList.ElementAt(3).Id)
             };
 
@@ -153,9 +153,9 @@ namespace LinearMockDatabase.Database
             #region Order
 
             // Orders
-            var orderRepo = new LinearAccess<LinearOrder>(dataDirectoryName);
+            var orderRepo = new LinearAccess<Order>(dataDirectoryName);
             orderRepo.DeleteAll();
-            var orders = new List<LinearOrder>();
+            var orders = new List<Order>();
 
             foreach (var advertiser in advertisers)
             {
@@ -172,23 +172,23 @@ namespace LinearMockDatabase.Database
                 }
                 if (agencyUsers.Count == 0) throw new Exception("Could not generate mock data: Found no users for agency " + agency.Name + " id: " + agency.Id);
 
-                var numberOfOrders = random.Next(13, 28);
+                var numberOfOrders = random.Next(5, 28);
 
                 for (int i = 0; i < numberOfOrders; i++)
                 {
                     var startDate = new DateTime(2023, 1, random.Next(1, 25), 00, 00, 00, DateTimeKind.Local);
-                    var specific = i % 4 == 0;
+                    var specific = i % 3 == 0;
 
                     var budgetAmount = random.Next(200, 700) * 100;
                     var budgetSpending = (budgetAmount / 2) + random.Next(10, (budgetAmount / 2));
 
-                    if (specific && i / 12 == 0)
+                    if (specific) // Price is based on actual bookings
                     {
-                        budgetSpending += budgetAmount + random.Next(1, (budgetAmount / 4));
+                        budgetSpending = 0;
                     }
 
 
-                    var order = new LinearOrder(
+                    var order = new Order(
                         id: Guid.NewGuid().ToString(),
                         modifiedTime: DateTime.Now,
                         ordernumber: random.Next(1000000, 10000000).ToString(),
@@ -201,6 +201,7 @@ namespace LinearMockDatabase.Database
 
                         orderTypeName: specific ? OrderTypeName.specific.ToString() : OrderTypeName.exposure.ToString(),
                         channelId: channelList.ElementAt(random.Next(channelList.Count)).Id,
+                        channelName: channelList.ElementAt(random.Next(channelList.Count)).Name,
                         salesProductId: specific ? productList.ElementAt(2).Id : productList.ElementAt(1).Id,
                         salesProductName: specific ? productList.ElementAt(2).Name : productList.ElementAt(1).Name,
                         salesGroupNumber: null,
@@ -224,36 +225,48 @@ namespace LinearMockDatabase.Database
             #region Spot Booking
 
             // Spot Booking
-            var spotBookingRepo = new LinearAccess<LinearSpotBooking>(dataDirectoryName);
+            var spotBookingRepo = new LinearAccess<SpotBooking>(dataDirectoryName);
             spotBookingRepo.DeleteAll();
             IList<LinearSpot> allSpots = spotRepo.ReadAll();
             IList<LinearSpot> updatedSpots = new List<LinearSpot>();
-            var spotbookings = new List<LinearSpotBooking>();
+            IList<Order> updatedOrders = new List<Order>();
+            var spotbookings = new List<SpotBooking>();
 
             foreach (var order in orders)
             {
                 if (order.OrderTypeName.Equals(OrderTypeName.specific.ToString()))
                 {
-                    var spot = GetAnyFreeSpotInOrderPeriod(allSpots, order);
-                    if (spot == null) break;
+                    for (int i = 0; i < random.Next(4); i++)
+                    {
+                        var spot = GetValidFreeSpot(allSpots, order, spotbookings);
+                        if (spot == null) break;
 
-                    if (spot.StartDateTime.CompareTo(order.StartDate) < 0) throw new Exception("spot before order start");
-                    if (spot.StartDateTime.CompareTo(order.EndDate) > 0) throw new Exception("spot after order start");
+                        if (spot.StartDateTime.CompareTo(order.StartDate) < 0) throw new Exception("spot before order start");
+                        if (spot.StartDateTime.CompareTo(order.EndDate) > 0) throw new Exception("spot after order start");
 
-                    spot.BookedSeconds += order.DurationSeconds;
-                    updatedSpots.Add(spot);
+                        // Reserver place on the spot
+                        spot.BookedSeconds += order.DurationSeconds;
+                        updatedSpots.Add(spot);
 
-                    var advertiser = advertiserRepo.Read(order.AdvertiserId);
-                    if (advertiser == null) throw new Exception("Generator: Could not find advertiser " + order.AdvertiserId);
+                        // Add to torder bill
+                        order.OrderTotal += spot.PriceTotal;
 
-                    spotbookings.Add(new LinearSpotBooking(Guid.NewGuid().ToString(), spot.Id, order.Id, advertiser.AgencyId));
+                        updatedOrders.Add(order);
+
+                        var advertiser = advertiserRepo.Read(order.AdvertiserId);
+                        if (advertiser == null) throw new Exception("Generator: Could not find advertiser " + order.AdvertiserId);
+
+                        spotbookings.Add(new SpotBooking(Guid.NewGuid().ToString(), spot.Id, order.Id, advertiser.AgencyId));
+                    }
                 }
             }
 
             if (updatedSpots.Count > 0)
             {
                 spotRepo.CreateList(updatedSpots); // Updates existing spots
+                orderRepo.CreateList(updatedOrders); // updates existing orders
                 spotBookingRepo.CreateList(spotbookings);
+                
             }
 
 
@@ -262,13 +275,18 @@ namespace LinearMockDatabase.Database
 
         #region Helper Methods
 
-        private static LinearSpot? GetAnyFreeSpotInOrderPeriod(IList<LinearSpot> spots, LinearOrder order)
+        private static LinearSpot? GetValidFreeSpot(IList<LinearSpot> spots, Order order, IList<SpotBooking> bookings)
         {
             spots.Shuffle();
             foreach (var spot in spots)
             {
                 if (spot.StartDateTime.CompareTo(order.StartDate) < 0 || spot.StartDateTime.CompareTo(order.EndDate) > 0) continue;
-                if (spot.Duration - spot.BookedSeconds >= 30) return spot;
+
+                if (spot.ChannelId != order.ChannelId) continue;
+
+                if (bookings.Where((it) => it.OrderId == order.Id && it.SpotId == spot.Id).Any()) continue;
+
+                if (spot.Duration - spot.BookedSeconds >= 30) { return spot; }
             }
             return null;
         }

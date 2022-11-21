@@ -21,8 +21,8 @@ namespace LinearTest
         private readonly LinearAccess<LinearAgency> agencyRepo = new(dataDirectoryName);
         private readonly LinearAccess<LinearUser> userRepo = new(dataDirectoryName);
         private readonly LinearAccess<Advertiser> advertiserRepo = new(dataDirectoryName);
-        private readonly LinearAccess<LinearOrder> orderRepo = new(dataDirectoryName);
-        private readonly LinearAccess<LinearSpotBooking> spotBookingRepo = new(dataDirectoryName);
+        private readonly LinearAccess<Order> orderRepo = new(dataDirectoryName);
+        private readonly LinearAccess<SpotBooking> spotBookingRepo = new(dataDirectoryName);
 
         [TestMethod]
         public void TestSpot()
@@ -70,7 +70,7 @@ namespace LinearTest
         public void TestOrders()
         {
 
-            IList<LinearOrder> orders = orderRepo.ReadAll();
+            IList<Order> orders = orderRepo.ReadAll();
 
             foreach (var order in orders)
             {

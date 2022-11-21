@@ -19,7 +19,7 @@ namespace Entities.Controllers
     public class OrderController : ControllerBase
     {
         private readonly ILogger<OrderController> logger;
-        private readonly ILinearAccess<LinearOrder> OrderRepo;
+        private readonly ILinearAccess<Order> OrderRepo;
         private readonly ISessionService sessionService;
 
         public OrderController(ILogger<OrderController> logger, ISessionService sessionService, ILinearRepo repo)
