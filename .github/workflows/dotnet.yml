@@ -14,9 +14,9 @@ jobs:
 
     runs-on: windows-latest
     
-    env:
-      Solution_Name: linearAPI
-      Test_Project_Path: DataTest
+   # env:
+   #   Solution_Name: linearAPI
+   #   Test_Project_Path: DataTest
       
 
     steps:
