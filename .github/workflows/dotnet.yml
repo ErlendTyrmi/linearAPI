@@ -25,9 +25,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-   # - name: Restore dependencies
-   #   run: dotnet --project linearAPI restore
-   # - name: Build
-   #   run: dotnet build --project linearAPI --no-restore
+    - name: Restore dependencies
+      run: dotnet --project linearAPI restore
+    - name: Build
+      run: dotnet build --project linearAPI --no-restore
     - name: Test
       run: dotnet test 
