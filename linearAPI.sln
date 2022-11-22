@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearAPI", "linearAPI\LinearAPI.csproj", "{AB3D881B-3BC0-49FA-B4F5-25B201F7E681}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B} = {E7E83DE4-F0F4-46F0-B16E-7CF4BA3B424B}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearTest", "DataTest\LinearTest.csproj", "{F5964FD2-4752-49AF-84D7-BD59C081D434}"
 EndProject
