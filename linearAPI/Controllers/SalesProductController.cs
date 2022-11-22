@@ -18,7 +18,7 @@ namespace Entities.Controllers
     public class SalesProductController : ControllerBase
     {
         private readonly ILogger<SalesProductController> logger;
-        private readonly ILinearAccess<LinearSalesProduct> salesProductRepo;
+        private readonly ILinearAccess<SalesProduct> salesProductRepo;
         private readonly ISessionService sessionService;
 
         public SalesProductController(ILogger<SalesProductController> logger, ILinearRepo repo, ISessionService sessionService)

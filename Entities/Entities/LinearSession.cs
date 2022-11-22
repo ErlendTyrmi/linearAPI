@@ -2,13 +2,13 @@
 
 namespace LinearEntities.Entities
 {
-    public class LinearSession : ILinearEntity
+    public class Session : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
 
-        public LinearSession(string id, string userId)
+        public Session(string id, string userId)
         {
             Id = id;
             ModifiedTime = DateTime.Now;

@@ -6,13 +6,13 @@ namespace Common.Interfaces
     {
         ILinearAccess<Advertiser> Advertiser { get; }
         ILinearAccess<AdvertiserFavorites> FavoriteAdvertiser { get; }
-        ILinearAccess<LinearAgency> Agency { get; }
-        ILinearAccess<LinearChannel> Channel { get; }
+        ILinearAccess<Agency> Agency { get; }
+        ILinearAccess<Channel> Channel { get; }
         ILinearAccess<Order> Order { get; }
-        ILinearAccess<LinearSalesProduct> SalesProduct { get; }
-        ILinearAccess<LinearSpot> Spot { get; }
+        ILinearAccess<SalesProduct> SalesProduct { get; }
+        ILinearAccess<Spot> Spot { get; }
         ILinearAccess<SpotBooking> SpotBooking { get; }
         ILinearAccess<LinearUser> User { get; }
-        ILinearAccess<LinearSession> Session { get; }
+        ILinearAccess<Session> Session { get; }
     }
 }

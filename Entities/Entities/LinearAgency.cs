@@ -3,7 +3,7 @@
 namespace LinearEntities.Entities
 {
     [Serializable]
-    public class LinearAgency : ILinearEntity
+    public class Agency : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
@@ -14,7 +14,7 @@ namespace LinearEntities.Entities
         public string SubscriptionType { get; }
         public bool CanSeeOtherAdvertisers { get; }
 
-        public LinearAgency(string id, string name, string subscriptionType, bool canSeeOtherAdvertisers)
+        public Agency(string id, string name, string subscriptionType, bool canSeeOtherAdvertisers)
         {
             Id = id;
             ModifiedTime = DateTime.Now;

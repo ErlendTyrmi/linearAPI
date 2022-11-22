@@ -7,10 +7,10 @@ namespace LinearAPI.Services
     public class SessionService : ISessionService
     {
         private ILinearAccess<LinearUser> userRepo;
-        private ILinearAccess<LinearSession> sessionRepo;
+        private ILinearAccess<Session> sessionRepo;
         private TimeSpan timeout;
 
-        public SessionService(ILinearAccess<LinearUser> userRepo, ILinearAccess<LinearSession> sessionRepo, TimeSpan timeout)
+        public SessionService(ILinearAccess<LinearUser> userRepo, ILinearAccess<Session> sessionRepo, TimeSpan timeout)
         {
             this.userRepo = userRepo ?? throw new ArgumentNullException(nameof(userRepo));
             this.sessionRepo = sessionRepo ?? throw new ArgumentNullException(nameof(sessionRepo));
@@ -33,7 +33,7 @@ namespace LinearAPI.Services
         public string SignIn(LinearUser user)
         {
             var id = Guid.NewGuid().ToString();
-            sessionRepo.Create(new LinearSession(id, user.Id));
+            sessionRepo.Create(new Session(id, user.Id));
             return id;
         }
 
@@ -59,7 +59,7 @@ namespace LinearAPI.Services
             sessionRepo.Delete(sessionId);
         }
 
-        private bool IsExpired(LinearSession session)
+        private bool IsExpired(Session session)
         {
             DateTime expiration = DateTime.Now - timeout;
             return session.ModifiedTime.CompareTo(expiration) < 0;

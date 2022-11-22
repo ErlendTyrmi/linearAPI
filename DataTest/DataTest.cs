@@ -6,19 +6,19 @@ using static LinearUtils.Util.Enums;
 namespace LinearTest
 {
     /// <summary>
-    /// Test references ("Foreign keys") in dataset
+    /// Test references ("Foreign keys") in mock dataset
     /// </summary>
     [TestClass]
     public class DataTest
     {
-        // Must match generated data folder name
+        // Must match generated data folder name used by application
         private static string dataDirectoryName = "Generated/";
 
         // Repos
-        private readonly LinearAccess<LinearChannel> channelRepo = new(dataDirectoryName);
-        private readonly LinearAccess<LinearSalesProduct> productRepo = new(dataDirectoryName);
-        private readonly LinearAccess<LinearSpot> spotRepo = new(dataDirectoryName);
-        private readonly LinearAccess<LinearAgency> agencyRepo = new(dataDirectoryName);
+        private readonly LinearAccess<Channel> channelRepo = new(dataDirectoryName);
+        private readonly LinearAccess<SalesProduct> productRepo = new(dataDirectoryName);
+        private readonly LinearAccess<Spot> spotRepo = new(dataDirectoryName);
+        private readonly LinearAccess<Agency> agencyRepo = new(dataDirectoryName);
         private readonly LinearAccess<LinearUser> userRepo = new(dataDirectoryName);
         private readonly LinearAccess<Advertiser> advertiserRepo = new(dataDirectoryName);
         private readonly LinearAccess<Order> orderRepo = new(dataDirectoryName);

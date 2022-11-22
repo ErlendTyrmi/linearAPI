@@ -18,7 +18,7 @@ namespace Entities.Controllers
     public class ChannelController : ControllerBase
     {
         private readonly ILogger<ChannelController> logger;
-        private readonly ILinearAccess<LinearChannel> ChannelRepo;
+        private readonly ILinearAccess<Channel> ChannelRepo;
         private readonly ISessionService sessionService;
 
         public ChannelController(ILogger<ChannelController> logger, ILinearRepo repo, ISessionService sessionService)

@@ -15,7 +15,7 @@ namespace Entities.Controllers
     public class SpotController : ControllerBase
     {
         private readonly ILogger<SpotController> _logger;
-        private readonly ILinearAccess<LinearSpot> SpotRepo;
+        private readonly ILinearAccess<Spot> SpotRepo;
         private readonly ISessionService sessionService;
 
         public SpotController(ILogger<SpotController> logger, ILinearRepo repo, ISessionService sessionService)

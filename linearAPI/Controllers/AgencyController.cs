@@ -16,7 +16,7 @@ namespace Entities.Controllers
     public class AgencyController : ControllerBase
     {
         private readonly ILogger<AgencyController> logger;
-        private readonly ILinearAccess<LinearAgency> agencyRepo;
+        private readonly ILinearAccess<Agency> agencyRepo;
         private readonly ISessionService sessionService;
 
         public AgencyController(ILogger<AgencyController> logger, ISessionService sessionService, ILinearRepo repo)

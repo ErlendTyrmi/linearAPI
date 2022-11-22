@@ -21,44 +21,43 @@ namespace LinearMockDatabase.Database
     /// </summary>
     public class DataGenerator
     {
-        private readonly static string dataDirectoryName = "Generated/";
         private readonly static List<string> CampaignWords = GetCampaignWords();
         private readonly static Random random = new();
 
-        public static void Generate()
+        public static void Generate(string dataDirectoryName)
         {
             // This data does not change
             #region StaticData
 
             // Channels
-            var channelRepo = new LinearAccess<LinearChannel>(dataDirectoryName);
+            var channelRepo = new LinearAccess<Channel>(dataDirectoryName);
             channelRepo.DeleteAll();
-            channelRepo.Create(new LinearChannel(Guid.NewGuid().ToString(), "TVX National", "national"));
-            channelRepo.Create(new LinearChannel(Guid.NewGuid().ToString(), "TVX Ung", "ung"));
-            channelRepo.Create(new LinearChannel(Guid.NewGuid().ToString(), "TVX Gammel", "gammel"));
-            channelRepo.Create(new LinearChannel(Guid.NewGuid().ToString(), "TVX Sporty", "sport"));
+            channelRepo.Create(new Channel(Guid.NewGuid().ToString(), "TVX National", "national"));
+            channelRepo.Create(new Channel(Guid.NewGuid().ToString(), "TVX Ung", "ung"));
+            channelRepo.Create(new Channel(Guid.NewGuid().ToString(), "TVX Gammel", "gammel"));
+            channelRepo.Create(new Channel(Guid.NewGuid().ToString(), "TVX Sporty", "sport"));
             var channelList = channelRepo.ReadAll();
 
             // CommercialProduct
-            var productRepo = new LinearAccess<LinearSalesProduct>(dataDirectoryName);
+            var productRepo = new LinearAccess<SalesProduct>(dataDirectoryName);
             productRepo.DeleteAll();
-            productRepo.Create(new LinearSalesProduct(Guid.NewGuid().ToString(), "classic 2-1", "2 parts exposure, 1 part specific"));
-            productRepo.Create(new LinearSalesProduct(Guid.NewGuid().ToString(), "exposure", ""));
-            productRepo.Create(new LinearSalesProduct(Guid.NewGuid().ToString(), "specific", ""));
+            productRepo.Create(new SalesProduct(Guid.NewGuid().ToString(), "classic 2-1", "2 parts exposure, 1 part specific"));
+            productRepo.Create(new SalesProduct(Guid.NewGuid().ToString(), "exposure", ""));
+            productRepo.Create(new SalesProduct(Guid.NewGuid().ToString(), "specific", ""));
             var productList = productRepo.ReadAll();
 
             // Agency
-            LinearAccess<LinearAgency> agencyRepo = new(dataDirectoryName);
+            LinearAccess<Agency> agencyRepo = new(dataDirectoryName);
             agencyRepo.DeleteAll();
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "TVX INTERN", "1", true));
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "Bling International", "3", false));
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "Hansens Reklameagentur", "3", false));
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "B-UNIQ", "2", false));
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "AD Vantage", "3", false));
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "MicroMacro", "1", false));
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "SKUB agentur", "1", false));
-            agencyRepo.Create(new LinearAgency(Guid.NewGuid().ToString(), "Belmonte", "1", false));
-            IList<LinearAgency> agencyList = agencyRepo.ReadAll();
+            agencyRepo.Create(new Agency(Guid.NewGuid().ToString(), "TVX INTERN", "1", true));
+            agencyRepo.Create(new Agency(Guid.NewGuid().ToString(), "Bling International", "3", false));
+            agencyRepo.Create(new Agency(Guid.NewGuid().ToString(), "Hansens Reklameagentur", "3", false));
+            agencyRepo.Create(new Agency(Guid.NewGuid().ToString(), "B-UNIQ", "2", false));
+            agencyRepo.Create(new Agency(Guid.NewGuid().ToString(), "AD Vantage", "3", false));
+            agencyRepo.Create(new Agency(Guid.NewGuid().ToString(), "MicroMacro", "1", false));
+            agencyRepo.Create(new Agency(Guid.NewGuid().ToString(), "SKUB agentur", "1", false));
+            agencyRepo.Create(new Agency(Guid.NewGuid().ToString(), "Belmonte", "1", false));
+            IList<Agency> agencyList = agencyRepo.ReadAll();
 
             // Users
             LinearAccess<LinearUser> userRepo = new(dataDirectoryName);
@@ -125,7 +124,7 @@ namespace LinearMockDatabase.Database
 
 
             // Spot
-            var spotRepo = new LinearAccess<LinearSpot>(dataDirectoryName);
+            var spotRepo = new LinearAccess<Spot>(dataDirectoryName);
             spotRepo.DeleteAll();
 
             var titles = new List<string> { "Vidunderlige Slotte", "Havens Hemmeligheder", "Kontrolvers", "Hvem siger hvad?",
@@ -133,7 +132,7 @@ namespace LinearMockDatabase.Database
                 "Det politiske hjørne", "Nuttede dyr", "Alma redder planeten", "Madkontoret", "De smukke drenge", "Alfreds gamle butik",
                 "Rita tager Risikoen", "Mixifix!", "Bøllemosen - før og nu", "Den kinesiske forbindelse", "The 1%"};
 
-            var spotList = new List<LinearSpot>();
+            var spotList = new List<Spot>();
 
             for (int day = 1; day < 32; day++)
             {
@@ -142,7 +141,7 @@ namespace LinearMockDatabase.Database
                 {
                     var hour = titleIndex + 5;
                     var channel = channelList.ElementAt(random.Next(channelList.Count));
-                    spotList.Add(new LinearSpot(Guid.NewGuid().ToString(), new DateTime(2023, 1, day, hour, 00, 00), 0, channel.Id, channel.Name, titles.ElementAt(titleIndex)));
+                    spotList.Add(new Spot(Guid.NewGuid().ToString(), new DateTime(2023, 1, day, hour, 00, 00), 0, channel.Id, channel.Name, titles.ElementAt(titleIndex)));
                 }
             }
             // spotList.ForEach((spot) => { Console.WriteLine("On " + spot.ChannelName + " at " + spot.StartDateTime.Hour + ": " + spot.NextProgram); });
@@ -227,8 +226,8 @@ namespace LinearMockDatabase.Database
             // Spot Booking
             var spotBookingRepo = new LinearAccess<SpotBooking>(dataDirectoryName);
             spotBookingRepo.DeleteAll();
-            IList<LinearSpot> allSpots = spotRepo.ReadAll();
-            IList<LinearSpot> updatedSpots = new List<LinearSpot>();
+            IList<Spot> allSpots = spotRepo.ReadAll();
+            IList<Spot> updatedSpots = new List<Spot>();
             IList<Order> updatedOrders = new List<Order>();
             var spotbookings = new List<SpotBooking>();
 
@@ -275,7 +274,7 @@ namespace LinearMockDatabase.Database
 
         #region Helper Methods
 
-        private static LinearSpot? GetValidFreeSpot(IList<LinearSpot> spots, Order order, IList<SpotBooking> bookings)
+        private static Spot? GetValidFreeSpot(IList<Spot> spots, Order order, IList<SpotBooking> bookings)
         {
             spots.Shuffle();
             foreach (var spot in spots)
@@ -302,13 +301,11 @@ namespace LinearMockDatabase.Database
         private static List<string> GetCampaignWords()
         {
             var jsonData = new LinearFileHandler("Text/").ReadAsString("CampaignWords");
-            if (jsonData == null) throw new Exception("Could not find text file for CampaignWords at ");
+            if (jsonData == null) return new List<string>{"noName", "noName"};
             var data = JsonSerializer.Deserialize<List<string>>(jsonData);
             if (data == null) throw new Exception("Could not deserialize CampaignWords.");
             return data;
         }
-
-
 
         #endregion
     }
