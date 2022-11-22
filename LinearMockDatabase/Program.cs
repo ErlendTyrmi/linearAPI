@@ -3,4 +3,4 @@ using LinearMockDatabase.Database;
 
 Console.WriteLine("Generating mock data for Linear API");
 
-DataGenerator.Generate();
+DataGenerator.Generate("/Generated");

@@ -8,9 +8,9 @@ namespace LinearAPI.Services
         private ILinearAccess<Order> orderRepo;
         private ILinearAccess<Advertiser> advertiserRepo;
         private ILinearAccess<SpotBooking> spotBookingRepo;
-        private ILinearAccess<LinearSpot> spotRepo;
+        private ILinearAccess<Spot> spotRepo;
 
-        public SpotBookingService(ILinearAccess<Order> order, ILinearAccess<Advertiser> advertiser, ILinearAccess<SpotBooking> spotBooking, ILinearAccess<LinearSpot> spot)
+        public SpotBookingService(ILinearAccess<Order> order, ILinearAccess<Advertiser> advertiser, ILinearAccess<SpotBooking> spotBooking, ILinearAccess<Spot> spot)
         {
             this.orderRepo = order;
             this.advertiserRepo = advertiser;
@@ -37,6 +37,10 @@ namespace LinearAPI.Services
             // Regulate order
             order.OrderTotal -= spot.PriceTotal;
 
+            // Regulate spot
+            spot.BookedSeconds -= order.DurationSeconds;
+
+            spotRepo.Create(spot);
             orderRepo.Create(order);
             spotBookingRepo.Delete(booking.Id);
 

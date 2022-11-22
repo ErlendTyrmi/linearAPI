@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 var corsSettings = "_allowSpecificOriginsDev";
 var cookieLifeTime = new TimeSpan(0, 120, 0);
 
-DataGenerator.Generate();
+DataGenerator.Generate("Generated/");
 
 // Add services to the container.
 builder.Services.AddControllers();

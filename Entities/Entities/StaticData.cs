@@ -3,13 +3,13 @@
 namespace LinearEntities.Entities
 {
     [Serializable]
-    public class LinearChannel : ILinearEntity
+    public class Channel : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
 
-        public LinearChannel(string id, string name, string shortName)
+        public Channel(string id, string name, string shortName)
         {
             Id = id;
             ModifiedTime = DateTime.Now;
@@ -22,13 +22,13 @@ namespace LinearEntities.Entities
     }
 
     [Serializable]
-    public class LinearSalesProduct : ILinearEntity
+    public class SalesProduct : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
 
-        public LinearSalesProduct(string id, string name, string description)
+        public SalesProduct(string id, string name, string description)
         {
             Id = id;
             ModifiedTime = DateTime.Now;
@@ -41,18 +41,18 @@ namespace LinearEntities.Entities
     }
 
     [Serializable]
-    public class LinearSpot : ILinearEntity
+    public class Spot : ILinearEntity
     {
         // Meta
         public string Id { get; set; }
         public DateTime ModifiedTime { get; set; }
 
-        public LinearSpot(string id, DateTime startDateTime, int bookedSeconds, string channelId, string channelName, string nextProgram)
+        public Spot(string id, DateTime startDateTime, int bookedSeconds, string channelId, string channelName, string nextProgram)
         {
             Id = id;
             ModifiedTime = DateTime.Now;
             StartDateTime = startDateTime;
-            // Always 3 minutes for the linear project
+            // Always 3 minutes for the mock data
             Duration = 180; 
             BookedSeconds = bookedSeconds;
             ChannelId = channelId;
