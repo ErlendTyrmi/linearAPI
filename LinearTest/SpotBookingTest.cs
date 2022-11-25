@@ -27,16 +27,9 @@ namespace LinearTest
         private readonly LinearAccess<Order> orderRepo = new(dataDirectoryName);
         private readonly LinearAccess<SpotBooking> spotBookingRepo = new(dataDirectoryName);
 
-        private ISpotBookingService spotBookingService;
-        private LinearUser adminUser;
-        private LinearUser bureauUser;
-
-        // public SpotBookingTest()
-        // {
-        //     spotBookingService = new SpotBookingService(orderRepo, advertiserRepo, spotBookingRepo, spotRepo);
-        //     adminUser = new LinearUser("uniqueId123", "Test Admin", "tead", "testad@tyrmi.com", "TestAgencyId", true, true, true, true); // Last true means admin
-        //     bureauUser = new LinearUser("uniqueId456", "Test Bureeau", "tebu", "testbu@tyrmi.com", agencyRepo.ReadAll().First().Id, true, true, true, false); // Last true means admin
-        // }
+        private ISpotBookingService? spotBookingService;
+        private LinearUser? adminUser;
+        private LinearUser? bureauUser;
 
         [TestInitialize]
         public void TestInitialize()
@@ -53,7 +46,7 @@ namespace LinearTest
         [TestCleanup]
         public void TestCleanup()
         {
-            // DeleteTestData();
+            DeleteTestData();
         }
 
         [TestMethod]
