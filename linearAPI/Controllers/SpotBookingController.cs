@@ -15,20 +15,15 @@ namespace Entities.Controllers
     public class SpotBookingController : ControllerBase
     {
         private readonly ILogger<SpotBookingController> logger;
-        private readonly ILinearAccess<SpotBooking> spotBookingRepo;
-        private readonly ILinearAccess<Order> orderRepo;
-        private readonly ILinearAccess<Advertiser> advertiserRepo;
+       
         private readonly ISessionService sessionService;
         private readonly ISpotBookingService spotBookingService;
 
-        public SpotBookingController(ILogger<SpotBookingController> logger, ISessionService sessionService, ISpotBookingService spotBookingService, ILinearRepo repo)
+        public SpotBookingController(ILogger<SpotBookingController> logger, ISessionService sessionService, ISpotBookingService spotBookingService)
         {
             this.logger = logger;
             this.sessionService = sessionService;
             this.spotBookingService = spotBookingService;
-            this.spotBookingRepo = repo.SpotBooking;
-            this.orderRepo = repo.Order;
-            this.advertiserRepo = repo.Advertiser;
         }
 
         [HttpGet]
@@ -37,11 +32,10 @@ namespace Entities.Controllers
         public IActionResult Get(string id)
         {
             // TODO: Check that user is handler for order
-           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
-
+            var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
-            var data = spotBookingRepo.Read(id);
+            var data = spotBookingService.Get(id);
             if (data == null) return StatusCode(404);
 
             return Ok(data);
@@ -50,27 +44,21 @@ namespace Entities.Controllers
         [HttpGet]
         [Route("own")]
         [Produces("application/json")]
-        public IActionResult GetByUSerId()
+        public IActionResult GetAllByUser()
         {
-           var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
+            var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 
-            var data = spotBookingRepo.ReadAll();
-            if (data == null) return StatusCode(404);
+            var bookings = spotBookingService.GetByUser(user);
+            if (bookings == null) return StatusCode(404);
 
-            if (data.Count < 1) return StatusCode(204); // Not found
-
-            if (user.IsAdmin) return Ok(data);
-
-            var filteredData = data.Where((it) => it.AgencyId == user.AgencyId);
-
-            return Ok(filteredData);
+            return Ok(bookings);
         }
 
         [HttpDelete]
         [Route("")]
         [Produces("application/json")]
-        public IActionResult delete(SpotBooking booking)
+        public IActionResult Delete(SpotBooking booking)
         {
             var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
