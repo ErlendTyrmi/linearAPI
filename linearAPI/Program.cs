@@ -8,13 +8,10 @@ using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var corsSettings = "_allowSpecificOriginsDev";
-var cookieLifeTime = new TimeSpan(0, 120, 0);
-
-DataGenerator.Generate("Generated/");
+var cookieLifeTime = new TimeSpan(2, 0, 0); // Cookielife 2 h
 
 // Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -52,7 +49,7 @@ ILinearRepo linearRepo = new LinearRepo("generated/");
 builder.Services.AddSingleton(typeof(ILinearRepo), linearRepo);
 builder.Services.AddSingleton(
     typeof(ISessionService),
-    new SessionService(linearRepo.User, linearRepo.Session, new TimeSpan(0, 60, 0)) // cookieLifeTime
+    new SessionService(linearRepo.User, linearRepo.Session, new TimeSpan(20, 0, 0)) // session 20h
     );
 builder.Services.AddSingleton(
     typeof(ISpotBookingService),

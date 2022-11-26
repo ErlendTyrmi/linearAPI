@@ -31,7 +31,6 @@ namespace Entities.Controllers
         [Produces("application/json")]
         public IActionResult Get(string id)
         {
-            // TODO: Check that user is handler for order
             var user = sessionService.AssertSignedIn(HttpContext.User.Claims.FirstOrDefault()?.Value);
             if (user == null) return StatusCode(401);
 

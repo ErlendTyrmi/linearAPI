@@ -20,7 +20,7 @@ namespace LinearEntities.Entities
             ModifiedTime = DateTime.Now;
             Name = name;
             SubscriptionType = subscriptionType;
-            CanSeeOtherAdvertisers = canSeeOtherAdvertisers; // TODO: Use it or lose it
+            CanSeeOtherAdvertisers = canSeeOtherAdvertisers;
         }
     }
 }
